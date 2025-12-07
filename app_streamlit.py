@@ -13,237 +13,104 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS personnalisé avec les couleurs AIMS (Rouge Bordeaux)
+# CSS simple avec couleur AIMS
 st.markdown("""
 <style>
-    /* Couleurs AIMS Senegal */
-    :root {
-        --aims-bordeaux: #8B1538;
-        --aims-bordeaux-light: #A91D3A;
-        --aims-bordeaux-dark: #6B0F2A;
-        --aims-gold: #D4AF37;
-        --background-color: #F5F5F5;
-        --card-background: #FFFFFF;
-        --text-primary: #1F2937;
-        --text-secondary: #6B7280;
-        --border-color: #E5E7EB;
-    }
-
-    /* Conteneur principal */
-    .main {
-        background: linear-gradient(180deg, #F5F5F5 0%, #FFFFFF 100%);
-    }
-
-    /* En-tête avec logo AIMS */
+    /* En-tête simple */
     .header-container {
-        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
-        padding: 2.5rem 2rem;
-        border-radius: 1.5rem;
+        background: #8B1538;
+        padding: 2rem;
+        border-radius: 0.8rem;
         color: white;
         margin-bottom: 2rem;
-        box-shadow: 0 15px 35px rgba(139, 21, 56, 0.3);
-        border: 3px solid var(--aims-gold);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .header-container::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        right: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-        animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 0.8; }
+        text-align: center;
     }
 
     .header-title {
-        font-size: 2.8rem;
-        font-weight: 900;
-        margin-bottom: 0.5rem;
-        text-align: center;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        color: white;
-        position: relative;
-        z-index: 1;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
     }
 
     .header-subtitle {
-        font-size: 1.2rem;
-        text-align: center;
-        opacity: 0.95;
-        position: relative;
-        z-index: 1;
-        color: var(--aims-gold);
-        font-weight: 500;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
     }
 
-    .aims-badge {
-        text-align: center;
-        padding: 0.5rem;
-        background: rgba(212, 175, 55, 0.2);
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Cartes statistiques AIMS */
+    /* Cartes simples */
     .stat-card {
-        background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
-        padding: 1.8rem;
-        border-radius: 1rem;
-        border-left: 5px solid var(--aims-bordeaux);
-        border-top: 1px solid var(--aims-gold);
-        box-shadow: 0 8px 16px rgba(139, 21, 56, 0.1);
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        border-left: 4px solid #8B1538;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
-        transition: all 0.3s ease;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(139, 21, 56, 0.2);
-        border-left-color: var(--aims-gold);
     }
 
     .stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-light) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #8B1538;
     }
 
     .stat-label {
-        color: var(--text-secondary);
+        color: #666;
         font-size: 0.9rem;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 600;
         margin-top: 0.5rem;
     }
 
-    /* Boutons AIMS */
+    /* Bouton simple */
     .stButton>button {
-        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
+        background: #8B1538;
         color: white;
-        border: 2px solid var(--aims-gold);
-        padding: 0.85rem 2.5rem;
-        border-radius: 0.75rem;
-        font-weight: 700;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 6px 12px rgba(139, 21, 56, 0.3);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
     }
 
     .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(139, 21, 56, 0.4);
-        background: linear-gradient(135deg, var(--aims-bordeaux-light) 0%, var(--aims-bordeaux) 100%);
-        border-color: var(--aims-gold);
+        background: #6B0F2A;
     }
 
-    /* Sidebar AIMS */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #FFF9F0 0%, #FFFFFF 100%);
-        border-right: 3px solid var(--aims-bordeaux);
-    }
-
-    section[data-testid="stSidebar"] > div {
-        background: transparent;
-    }
-
-    /* Progress bar AIMS */
+    /* Progress bar */
     .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, var(--aims-bordeaux) 0%, var(--aims-gold) 100%);
+        background: #8B1538;
     }
 
-    /* Tabs AIMS */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
-        background-color: transparent;
-    }
-
-    .stTabs [data-baseweb="tab"] {
-        background-color: transparent;
-        border-radius: 0.75rem;
-        padding: 0.75rem 1.5rem;
-        font-weight: 700;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-    }
-
+    /* Tabs */
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
+        background-color: #8B1538 !important;
         color: white;
-        border-color: var(--aims-gold);
-        box-shadow: 0 4px 8px rgba(139, 21, 56, 0.2);
     }
 
-    .stTabs [aria-selected="false"]:hover {
-        background-color: rgba(139, 21, 56, 0.05);
-        border-color: var(--aims-bordeaux);
-    }
-
-    /* Alert boxes AIMS */
+    /* Boxes */
     .success-box {
-        background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-        border-left: 5px solid #10B981;
-        border-top: 2px solid var(--aims-gold);
-        padding: 1.2rem;
-        border-radius: 0.75rem;
+        background: #D1FAE5;
+        border-left: 4px solid #10B981;
+        padding: 1rem;
+        border-radius: 0.5rem;
         margin: 1rem 0;
-        box-shadow: 0 4px 8px rgba(16, 185, 129, 0.1);
     }
 
     .info-box {
-        background: linear-gradient(135deg, #FFF9F0 0%, #FFF4E6 100%);
-        border-left: 5px solid var(--aims-bordeaux);
-        border-top: 2px solid var(--aims-gold);
-        padding: 1.2rem;
-        border-radius: 0.75rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 8px rgba(139, 21, 56, 0.1);
-    }
-
-    /* Inputs */
-    .stNumberInput>div>div>input, .stSelectbox>div>div>select {
+        background: #FEF3C7;
+        border-left: 4px solid #8B1538;
+        padding: 1rem;
         border-radius: 0.5rem;
-        border: 2px solid var(--aims-bordeaux);
-        padding: 0.5rem;
-    }
-
-    .stNumberInput>div>div>input:focus, .stSelectbox>div>div>select:focus {
-        border-color: var(--aims-gold);
-        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-    }
-
-    /* Divider */
-    hr {
-        border-color: var(--aims-gold);
-        margin: 2rem 0;
+        margin: 1rem 0;
     }
 
     /* Footer */
     .footer-aims {
         text-align: center;
         padding: 2rem;
-        background: linear-gradient(135deg, var(--aims-bordeaux-dark) 0%, var(--aims-bordeaux) 100%);
+        background: #8B1538;
         color: white;
-        border-radius: 1rem;
-        margin-top: 3rem;
-        border: 2px solid var(--aims-gold);
+        border-radius: 0.5rem;
+        margin-top: 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
