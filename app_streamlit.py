@@ -13,15 +13,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS personnalisé pour un design moderne (style Tailwind)
+# CSS personnalisé avec les couleurs AIMS (Rouge Bordeaux)
 st.markdown("""
 <style>
-    /* Couleurs et thème général */
+    /* Couleurs AIMS Senegal */
     :root {
-        --primary-color: #3B82F6;
-        --secondary-color: #10B981;
-        --accent-color: #F59E0B;
-        --background-color: #F9FAFB;
+        --aims-bordeaux: #8B1538;
+        --aims-bordeaux-light: #A91D3A;
+        --aims-bordeaux-dark: #6B0F2A;
+        --aims-gold: #D4AF37;
+        --background-color: #F5F5F5;
         --card-background: #FFFFFF;
         --text-primary: #1F2937;
         --text-secondary: #6B7280;
@@ -30,142 +31,235 @@ st.markdown("""
 
     /* Conteneur principal */
     .main {
-        background-color: var(--background-color);
+        background: linear-gradient(180deg, #F5F5F5 0%, #FFFFFF 100%);
     }
 
-    /* En-tête */
+    /* En-tête avec logo AIMS */
     .header-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 1rem;
+        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
+        padding: 2.5rem 2rem;
+        border-radius: 1.5rem;
         color: white;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 15px 35px rgba(139, 21, 56, 0.3);
+        border: 3px solid var(--aims-gold);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header-container::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.8; }
     }
 
     .header-title {
-        font-size: 2.5rem;
-        font-weight: 800;
+        font-size: 2.8rem;
+        font-weight: 900;
         margin-bottom: 0.5rem;
         text-align: center;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        color: white;
+        position: relative;
+        z-index: 1;
     }
 
     .header-subtitle {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         text-align: center;
-        opacity: 0.9;
+        opacity: 0.95;
+        position: relative;
+        z-index: 1;
+        color: var(--aims-gold);
+        font-weight: 500;
     }
 
-    /* Cartes statistiques */
+    .aims-badge {
+        text-align: center;
+        padding: 0.5rem;
+        background: rgba(212, 175, 55, 0.2);
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Cartes statistiques AIMS */
     .stat-card {
-        background: var(--card-background);
-        padding: 1.5rem;
-        border-radius: 0.75rem;
-        border-left: 4px solid var(--primary-color);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+        padding: 1.8rem;
+        border-radius: 1rem;
+        border-left: 5px solid var(--aims-bordeaux);
+        border-top: 1px solid var(--aims-gold);
+        box-shadow: 0 8px 16px rgba(139, 21, 56, 0.1);
         margin-bottom: 1rem;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
     }
 
     .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(139, 21, 56, 0.2);
+        border-left-color: var(--aims-gold);
     }
 
     .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--primary-color);
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .stat-label {
         color: var(--text-secondary);
-        font-size: 0.875rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        margin-top: 0.5rem;
+    }
+
+    /* Boutons AIMS */
+    .stButton>button {
+        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
+        color: white;
+        border: 2px solid var(--aims-gold);
+        padding: 0.85rem 2.5rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 12px rgba(139, 21, 56, 0.3);
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
 
-    /* Boutons personnalisés */
-    .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(139, 21, 56, 0.4);
+        background: linear-gradient(135deg, var(--aims-bordeaux-light) 0%, var(--aims-bordeaux) 100%);
+        border-color: var(--aims-gold);
     }
 
-    /* Inputs */
-    .stNumberInput>div>div>input {
-        border-radius: 0.5rem;
-        border: 2px solid var(--border-color);
-        padding: 0.5rem;
+    /* Sidebar AIMS */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #FFF9F0 0%, #FFFFFF 100%);
+        border-right: 3px solid var(--aims-bordeaux);
     }
 
-    /* Sidebar */
-    .css-1d391kg {
-        background-color: #F3F4F6;
+    section[data-testid="stSidebar"] > div {
+        background: transparent;
     }
 
-    /* Progress bar */
+    /* Progress bar AIMS */
     .stProgress > div > div > div > div {
-        background-color: var(--primary-color);
+        background: linear-gradient(90deg, var(--aims-bordeaux) 0%, var(--aims-gold) 100%);
     }
 
-    /* Tabs */
+    /* Tabs AIMS */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 1rem;
+        gap: 0.5rem;
+        background-color: transparent;
     }
 
     .stTabs [data-baseweb="tab"] {
         background-color: transparent;
-        border-radius: 0.5rem;
-        padding: 0.5rem 1rem;
-        font-weight: 600;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
     }
 
     .stTabs [aria-selected="true"] {
-        background-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--aims-bordeaux) 0%, var(--aims-bordeaux-dark) 100%);
         color: white;
+        border-color: var(--aims-gold);
+        box-shadow: 0 4px 8px rgba(139, 21, 56, 0.2);
     }
 
-    /* Dataframe */
-    .dataframe {
-        border-radius: 0.5rem;
-        overflow: hidden;
+    .stTabs [aria-selected="false"]:hover {
+        background-color: rgba(139, 21, 56, 0.05);
+        border-color: var(--aims-bordeaux);
     }
 
-    /* Alert boxes */
+    /* Alert boxes AIMS */
     .success-box {
-        background-color: #D1FAE5;
-        border-left: 4px solid #10B981;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+        border-left: 5px solid #10B981;
+        border-top: 2px solid var(--aims-gold);
+        padding: 1.2rem;
+        border-radius: 0.75rem;
         margin: 1rem 0;
+        box-shadow: 0 4px 8px rgba(16, 185, 129, 0.1);
     }
 
     .info-box {
-        background-color: #DBEAFE;
-        border-left: 4px solid #3B82F6;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #FFF9F0 0%, #FFF4E6 100%);
+        border-left: 5px solid var(--aims-bordeaux);
+        border-top: 2px solid var(--aims-gold);
+        padding: 1.2rem;
+        border-radius: 0.75rem;
         margin: 1rem 0;
+        box-shadow: 0 4px 8px rgba(139, 21, 56, 0.1);
+    }
+
+    /* Inputs */
+    .stNumberInput>div>div>input, .stSelectbox>div>div>select {
+        border-radius: 0.5rem;
+        border: 2px solid var(--aims-bordeaux);
+        padding: 0.5rem;
+    }
+
+    .stNumberInput>div>div>input:focus, .stSelectbox>div>div>select:focus {
+        border-color: var(--aims-gold);
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Divider */
+    hr {
+        border-color: var(--aims-gold);
+        margin: 2rem 0;
+    }
+
+    /* Footer */
+    .footer-aims {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--aims-bordeaux-dark) 0%, var(--aims-bordeaux) 100%);
+        color: white;
+        border-radius: 1rem;
+        margin-top: 3rem;
+        border: 2px solid var(--aims-gold);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# En-tête de l'application
+# En-tête de l'application avec logo AIMS
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("WhatsApp Image 2025-11-29 à 12.52.58_0067bc42.jpg", use_container_width=True)
+
 st.markdown("""
 <div class="header-container">
     <h1 class="header-title">🐾 CoinAfrique Animal Scraper</h1>
     <p class="header-subtitle">Scraping intelligent des annonces d'animaux sur CoinAfrique.com</p>
+    <div class="aims-badge">
+        AIMS SENEGAL | African Institute for Mathematical Sciences
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -466,10 +560,19 @@ else:
         - ✅ Suivi en temps réel du scraping
         """)
 
-# Footer
+# Footer AIMS
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; color: #6B7280; padding: 1rem;">
-    <p>🐾 CoinAfrique Animal Scraper | Développé avec ❤️ par AIMS Senegal</p>
+<div class="footer-aims">
+    <h3 style="margin: 0 0 1rem 0;">🐾 CoinAfrique Animal Scraper</h3>
+    <p style="margin: 0.5rem 0; font-size: 1.1rem;">
+        <strong>Développé avec ❤️ par AIMS Senegal</strong>
+    </p>
+    <p style="margin: 0.5rem 0; color: #D4AF37; font-size: 0.9rem;">
+        African Institute for Mathematical Sciences | Centre d'Excellence en Sciences Mathématiques
+    </p>
+    <p style="margin: 1rem 0 0 0; font-size: 0.85rem; opacity: 0.8;">
+        © 2025 AIMS Senegal - Projet Data Collection | Ndeye Khady Wade
+    </p>
 </div>
 """, unsafe_allow_html=True)
