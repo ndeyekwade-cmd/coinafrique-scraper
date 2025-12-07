@@ -569,43 +569,77 @@ elif st.session_state.page == 'instructions':
 
 # ==================== PAGE SCRAPING ====================
 elif st.session_state.page == 'scraping':
-    # Sidebar
+    # Sidebar avec menu
     with st.sidebar:
-        categories = {
-            "🐕 Chiens": {
-                "url": "https://sn.coinafrique.com/categorie/chiens",
-                "selector": "card-content"
-            },
-            "🐑 Moutons": {
-                "url": "https://sn.coinafrique.com/categorie/moutons",
-                "selector": "description"
-            },
-            "🐔 Poules, Lapins et Pigeons": {
-                "url": "https://sn.coinafrique.com/categorie/poules-lapins-et-pigeons",
-                "selector": "description"
-            },
-            "🐾 Autres Animaux": {
-                "url": "https://sn.coinafrique.com/categorie/autres-animaux",
-                "selector": "description"
-            }
-        }
-
-        categorie_selectionnee = st.selectbox(
-            "📋 Choisir une catégorie:",
-            list(categories.keys())
-        )
-
-        nb_pages = st.number_input(
-            "📄 Nombre de pages à scraper:",
-            min_value=1,
-            max_value=50,
-            value=5,
-            step=1
-        )
-
+        st.markdown("## 📊 MENU")
         st.markdown("---")
 
-        scraper_btn = st.button("🚀 LANCER LE SCRAPING", use_container_width=True)
+        # Menu Visualiser les données
+        with st.expander("📈 Visualiser les données", expanded=False):
+            if 'df' in st.session_state:
+                st.success(f"✅ {len(st.session_state['df'])} annonces disponibles")
+                if st.button("Voir les statistiques", key="view_stats"):
+                    st.session_state['show_section'] = 'stats'
+            else:
+                st.info("Aucune donnée disponible. Lancez d'abord un scraping.")
+
+        # Menu Scraper des données
+        with st.expander("🔍 Scraper des données", expanded=True):
+            categories = {
+                "🐕 Chiens": {
+                    "url": "https://sn.coinafrique.com/categorie/chiens",
+                    "selector": "card-content"
+                },
+                "🐑 Moutons": {
+                    "url": "https://sn.coinafrique.com/categorie/moutons",
+                    "selector": "description"
+                },
+                "🐔 Poules, Lapins et Pigeons": {
+                    "url": "https://sn.coinafrique.com/categorie/poules-lapins-et-pigeons",
+                    "selector": "description"
+                },
+                "🐾 Autres Animaux": {
+                    "url": "https://sn.coinafrique.com/categorie/autres-animaux",
+                    "selector": "description"
+                }
+            }
+
+            categorie_selectionnee = st.selectbox(
+                "📋 Catégorie:",
+                list(categories.keys()),
+                key="cat_select"
+            )
+
+            nb_pages = st.number_input(
+                "📄 Nombre de pages:",
+                min_value=1,
+                max_value=50,
+                value=5,
+                step=1,
+                key="nb_pages_input"
+            )
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            scraper_btn = st.button("🚀 LANCER", use_container_width=True, key="scrape_btn")
+
+        # Menu Feedback
+        with st.expander("💬 Feedback", expanded=False):
+            st.markdown("**Votre avis compte!**")
+            feedback = st.text_area(
+                "Partagez vos commentaires:",
+                placeholder="Que pensez-vous de cette application?",
+                height=100,
+                key="feedback_text"
+            )
+            if st.button("📤 Envoyer", use_container_width=True, key="send_feedback"):
+                if feedback:
+                    st.success("Merci pour votre feedback!")
+                else:
+                    st.warning("Veuillez écrire un commentaire.")
+
+        st.markdown("---")
+        st.markdown("**AIMS Senegal**")
+        st.caption("© 2025 Ndeye Khady Wade")
 
     # Header
     st.markdown("""
