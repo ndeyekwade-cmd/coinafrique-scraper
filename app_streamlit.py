@@ -236,15 +236,47 @@ def local_css():
             color: var(--text-light);
         }
 
-        /* Page d'accueil - Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Page d'accueil - Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 15px rgba(247,25,56,0.4);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(0,131,184,0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(247,25,56,0.8), 0 0 30px rgba(0,131,184,0.5);
+            }
         }
 
         .welcome-container {
@@ -252,6 +284,7 @@ def local_css():
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
             height: 100vh;
             position: fixed;
             top: 0;
@@ -259,7 +292,7 @@ def local_css():
             right: 0;
             bottom: 0;
             overflow: hidden;
-            animation: fadeIn 1s ease-out;
+            padding: 2rem;
         }
 
         .welcome-title {
@@ -269,19 +302,30 @@ def local_css():
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem;
-            animation: fadeIn 1.2s ease-out;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out, glow 3s ease-in-out infinite;
         }
 
         .welcome-subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
-            margin-bottom: 2rem;
-            animation: fadeIn 1.4s ease-out;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1.2s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            animation-delay: 0.3s;
         }
 
-        .welcome-button {
-            animation: fadeIn 1.6s ease-out, pulse 2s infinite;
+        .welcome-btn-container {
+            animation: fadeInUp 1.4s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            animation-delay: 0.6s;
+        }
+
+        .welcome-btn-container .stButton>button {
+            animation: pulse 2s ease-in-out infinite;
+            animation-delay: 1.5s;
         }
 
         /* Instructions page */
@@ -444,20 +488,20 @@ def visualiser_donnees(df, categorie_name):
 
 # ==================== PAGE WELCOME ====================
 if st.session_state.page == 'welcome':
-    # Container fixe pour tout centrer
-    st.markdown('<div class="welcome-container">', unsafe_allow_html=True)
-
     st.markdown("""
+    <div class="welcome-container">
         <h1 class="welcome-title">📊 CoinAfrique Analytics</h1>
         <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
+    </div>
     """, unsafe_allow_html=True)
 
+    # Conteneur pour le bouton avec animation
+    st.markdown('<div class="welcome-btn-container" style="position: fixed; bottom: 40%; left: 50%; transform: translateX(-50%); z-index: 1000;">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
         if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
             st.session_state.page = 'instructions'
             st.rerun()
-
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==================== PAGE INSTRUCTIONS ====================
