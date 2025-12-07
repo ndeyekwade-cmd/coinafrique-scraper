@@ -319,24 +319,24 @@ def local_css():
         }
 
         .welcome-btn-wrapper {
-            width: 100%;
-            max-width: 180px;
-            margin: 0 auto;
+            display: flex;
+            justify-content: center;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.6s;
         }
 
-        .welcome-btn-wrapper .stButton>button {
-            padding: 0.6rem 1.5rem;
-            font-size: 0.95rem;
+        .welcome-btn-wrapper .stButton {
+            display: inline-block;
         }
 
-        .welcome-container .stButton>button {
+        .welcome-btn-wrapper .stButton>button {
+            padding: 0.7rem 2rem;
+            font-size: 1rem;
+            width: auto;
             animation: pulse 2s ease-in-out infinite;
             animation-delay: 1.5s;
-            width: 100%;
         }
 
         /* Instructions page */
@@ -508,7 +508,7 @@ if st.session_state.page == 'welcome':
 
     # Bouton dans un wrapper centré
     st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
-    if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
+    if st.button("🚀 COMMENCER", key="welcome_btn"):
         st.session_state.page = 'instructions'
         st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
