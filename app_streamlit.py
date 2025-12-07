@@ -321,6 +321,8 @@ def local_css():
         .welcome-btn-wrapper {
             display: flex;
             justify-content: center;
+            align-items: center;
+            width: 100%;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
@@ -328,13 +330,16 @@ def local_css():
         }
 
         .welcome-btn-wrapper .stButton {
-            display: inline-block;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .welcome-btn-wrapper .stButton>button {
             padding: 0.7rem 2rem;
             font-size: 1rem;
             width: auto;
+            margin: 0 auto;
+            display: block;
             animation: pulse 2s ease-in-out infinite;
             animation-delay: 1.5s;
         }
