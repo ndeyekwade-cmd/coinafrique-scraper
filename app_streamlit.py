@@ -303,13 +303,15 @@ def local_css():
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 1rem;
+            text-align: center;
             animation: fadeInDown 1s ease-out, glow 3s ease-in-out infinite;
         }
 
         .welcome-subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
@@ -318,7 +320,7 @@ def local_css():
 
         .welcome-btn-wrapper {
             width: 100%;
-            max-width: 300px;
+            max-width: 200px;
             margin: 0 auto;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
