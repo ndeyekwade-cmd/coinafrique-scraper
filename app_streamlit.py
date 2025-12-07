@@ -708,10 +708,3 @@ elif st.session_state.page == 'scraping':
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         use_container_width=True
                     )
-    else:
-        st.markdown("""
-        <div class="alert-info">
-            <strong>👋 Prêt à commencer!</strong><br><br>
-            Configurez vos paramètres dans la barre latérale et cliquez sur "LANCER LE SCRAPING"
-        </div>
-        """, unsafe_allow_html=True)
