@@ -22,7 +22,10 @@ def local_css():
             --primary-blue: #0083B8;
             --accent-red: #F71938;
             --aims-red: #8B1538;
+            --night-blue: #0f1419;
+            --dark-blue: #1a1f2e;
             --text-dark: #070505;
+            --text-light: #e8e8e8;
             --gray-light: #cecdcd;
             --white: #FFFFFF;
         }
@@ -32,14 +35,24 @@ def local_css():
         footer {visibility: hidden;}
         header {visibility: hidden;}
 
-        /* Background */
+        /* Background bleu nuit */
         .stApp {
-            background-color: var(--white);
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
         }
 
         /* Sidebar */
         [data-testid="stSidebar"] {
-            background-color: #f5f5f5;
+            background-color: #1a1f2e;
+            border-right: 1px solid rgba(0,131,184,0.2);
+        }
+
+        [data-testid="stSidebar"] * {
+            color: var(--text-light) !important;
+        }
+
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3 {
+            color: var(--primary-blue) !important;
         }
 
         [data-testid="stSidebar"] > div:first-child {
@@ -48,38 +61,41 @@ def local_css():
 
         /* Metric containers avec ombres colorées */
         [data-testid=metric-container] {
-            background-color: var(--white);
-            border: 1px solid rgba(0,131,184,0.1);
+            background: rgba(26, 31, 46, 0.8);
+            border: 1px solid rgba(0,131,184,0.3);
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(247,25,56,0.3);
+            box-shadow: 0 0 15px rgba(247,25,56,0.4);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         [data-testid=metric-container]:hover {
-            box-shadow: 0 0 15px rgba(247,25,56,0.5);
+            box-shadow: 0 0 20px rgba(247,25,56,0.6);
             transform: translateY(-3px);
+            border-color: rgba(0,131,184,0.5);
         }
 
         [data-testid="metric-container"] > label {
-            color: var(--text-dark);
+            color: var(--text-light) !important;
             font-weight: 600;
             font-size: 0.9rem;
             text-transform: uppercase;
         }
 
         [data-testid="metric-container"] > div {
-            color: var(--primary-blue);
+            color: var(--primary-blue) !important;
             font-size: 2rem;
             font-weight: 700;
         }
 
         /* Plot containers */
         .plot-container>div {
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
             border-radius: 8px;
             padding: 10px;
-            background-color: var(--white);
+            background-color: rgba(26, 31, 46, 0.9);
+            border: 1px solid rgba(0,131,184,0.2);
         }
 
         /* Boutons */
@@ -133,32 +149,35 @@ def local_css():
         .stDataFrame {
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,131,184,0.2);
         }
 
         /* Titres */
         h1, h2, h3 {
-            color: var(--text-dark);
+            color: var(--text-light) !important;
             font-weight: 700;
         }
 
         /* Alert boxes */
         .alert-info {
-            background-color: #e7f3ff;
+            background: rgba(0, 131, 184, 0.15);
             border-left: 4px solid var(--primary-blue);
             padding: 1rem;
             border-radius: 8px;
             margin: 1rem 0;
-            color: var(--text-dark);
+            color: var(--text-light);
+            border: 1px solid rgba(0,131,184,0.3);
         }
 
         .alert-success {
-            background-color: #d4edda;
+            background: rgba(40, 167, 69, 0.15);
             border-left: 4px solid #28a745;
             padding: 1rem;
             border-radius: 8px;
             margin: 1rem 0;
-            color: #155724;
+            color: var(--text-light);
+            border: 1px solid rgba(40,167,69,0.3);
         }
 
         /* Section headers */
@@ -182,8 +201,13 @@ def local_css():
             text-align: center;
             padding: 2rem;
             margin-top: 3rem;
-            border-top: 2px solid var(--gray-light);
-            color: #686664;
+            border-top: 2px solid rgba(0,131,184,0.3);
+            color: var(--text-light);
+        }
+
+        /* Text general */
+        p, span, label, div {
+            color: var(--text-light);
         }
     </style>
     """, unsafe_allow_html=True)
