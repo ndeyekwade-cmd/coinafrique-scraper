@@ -252,7 +252,13 @@ def local_css():
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80vh;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
             animation: fadeIn 1s ease-out;
         }
 
@@ -263,14 +269,14 @@ def local_css():
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             animation: fadeIn 1.2s ease-out;
         }
 
         .welcome-subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             animation: fadeIn 1.4s ease-out;
         }
 
