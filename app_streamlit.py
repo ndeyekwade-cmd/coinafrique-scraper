@@ -319,27 +319,16 @@ def local_css():
         }
 
         .welcome-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.6s;
         }
 
-        .welcome-btn-wrapper .stButton {
-            margin: 0 auto;
-            text-align: center;
-        }
-
         .welcome-btn-wrapper .stButton>button {
             padding: 0.7rem 2rem;
             font-size: 1rem;
-            width: auto;
-            margin: 0 auto;
-            display: block;
+            width: 100%;
             animation: pulse 2s ease-in-out infinite;
             animation-delay: 1.5s;
         }
@@ -511,11 +500,13 @@ if st.session_state.page == 'welcome':
         <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
     """, unsafe_allow_html=True)
 
-    # Bouton dans un wrapper centré
+    # Bouton centré avec colonnes
     st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
-    if st.button("🚀 COMMENCER", key="welcome_btn"):
-        st.session_state.page = 'instructions'
-        st.rerun()
+    col1, col2, col3 = st.columns([2, 1, 2])
+    with col2:
+        if st.button("🚀 COMMENCER", key="welcome_btn"):
+            st.session_state.page = 'instructions'
+            st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
