@@ -176,8 +176,20 @@ def local_css():
             margin: 2rem auto;
             color: var(--text-light);
             border: 1px solid rgba(0,131,184,0.3);
-            text-align: center;
             max-width: 800px;
+        }
+
+        .alert-info strong {
+            display: block;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info b {
+            display: block;
+            text-align: left;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .alert-success {
