@@ -372,150 +372,20 @@ with st.sidebar:
 
     scraper_btn = st.button("🚀 LANCER LE SCRAPING", use_container_width=True)
 
-# ==================== HEADER ====================
+# ==================== MAIN CONTENT ====================
 st.markdown("""
 <div class="section-header">
     <h2>📊 CoinAfrique Analytics Dashboard</h2>
 </div>
 """, unsafe_allow_html=True)
 
-# ==================== MAIN CONTENT ====================
-if scraper_btn:
-    st.markdown("""
-    <div class="alert-info">
-        <strong>🔍 Scraping en cours...</strong><br>
-        Veuillez patienter pendant la collecte des données.
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Scraping
-    config = categories[categorie_selectionnee]
-    df = scraper_categorie(
-        categorie_selectionnee,
-        config['url'],
-        nb_pages,
-        config['selector']
-    )
-
-    # Stocker dans session state
-    st.session_state['df'] = df
-    st.session_state['categorie'] = categorie_selectionnee
-
-    st.markdown(f"""
-    <div class="alert-success">
-        <strong>✅ Scraping terminé avec succès!</strong><br>
-        {len(df)} annonces collectées et nettoyées
-    </div>
-    """, unsafe_allow_html=True)
-
-# Affichage des résultats
-if 'df' in st.session_state:
-    df = st.session_state['df']
-    categorie = st.session_state['categorie']
-
-    # KPIs en 5 colonnes
-    st.markdown("### 📈 INDICATEURS CLÉS")
-    col1, col2, col3, col4, col5 = st.columns(5)
-
-    with col1:
-        st.metric("📊 TOTAL ANNONCES", len(df))
-
-    with col2:
-        st.metric("💰 AVEC PRIX", df['price'].notna().sum())
-
-    with col3:
-        st.metric("📍 AVEC ADRESSE", df['address'].notna().sum())
-
-    with col4:
-        st.metric("🖼️ AVEC IMAGE", df['image_link'].notna().sum())
-
-    with col5:
-        completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
-        st.metric("✅ COMPLÉTUDE", f"{completion}%")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Tabs
-    tab1, tab2, tab3 = st.tabs(["📊 VISUALISATIONS", "📋 DONNÉES", "💾 EXPORT"])
-
-    with tab1:
-        st.markdown("### 📊 Analyse Graphique")
-        fig = visualiser_donnees(df, categorie)
-        st.pyplot(fig)
-
-    with tab2:
-        st.markdown(f"### 📋 Tableau des Données - {categorie}")
-        st.dataframe(df, use_container_width=True, height=450)
-
-    with tab3:
-        st.markdown("### 💾 Télécharger les Données")
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            csv = df.to_csv(index=False, encoding='utf-8-sig')
-            st.download_button(
-                label="📥 Télécharger CSV",
-                data=csv,
-                file_name=f"{categorie.replace(' ', '_')}_data.csv",
-                mime="text/csv",
-                use_container_width=True
-            )
-
-        with col2:
-            excel_buffer = pd.ExcelWriter('temp.xlsx', engine='openpyxl')
-            df.to_excel(excel_buffer, index=False)
-            excel_buffer.close()
-
-            with open('temp.xlsx', 'rb') as f:
-                st.download_button(
-                    label="📥 Télécharger Excel",
-                    data=f,
-                    file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    use_container_width=True
-                )
-
-else:
-    # Page d'accueil
-    st.markdown("""
-    <div class="alert-info">
-        <strong>👋 Bienvenue sur le Dashboard CoinAfrique!</strong><br><br>
-        <b>Instructions:</b><br>
-        1️⃣ Sélectionnez une catégorie d'animaux dans la barre latérale<br>
-        2️⃣ Choisissez le nombre de pages à scraper (1-50)<br>
-        3️⃣ Cliquez sur "LANCER LE SCRAPING" pour démarrer<br>
-        4️⃣ Visualisez et exportez vos données
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("### 🎯 Catégories Disponibles")
-        st.markdown("""
-        - 🐕 **Chiens**
-        - 🐑 **Moutons**
-        - 🐔 **Poules, Lapins et Pigeons**
-        - 🐾 **Autres Animaux**
-        """)
-
-    with col2:
-        st.markdown("### ✨ Fonctionnalités")
-        st.markdown("""
-        - ✅ Scraping automatisé
-        - ✅ Nettoyage des données
-        - ✅ Visualisations interactives
-        - ✅ Export CSV & Excel
-        """)
-
-# Footer
 st.markdown("""
-<div class="custom-footer">
-    <strong>📊 CoinAfrique Analytics Dashboard</strong><br>
-    AIMS Senegal - Projet Data Collection | Ndeye Khady Wade<br>
-    © 2025 African Institute for Mathematical Sciences
+<div class="alert-info">
+    <strong>👋 Bienvenue sur le Dashboard CoinAfrique!</strong><br><br>
+    <b>Instructions:</b><br>
+    1️⃣ Sélectionnez une catégorie d'animaux dans la barre latérale<br>
+    2️⃣ Choisissez le nombre de pages à scraper (1-50)<br>
+    3️⃣ Cliquez sur "LANCER LE SCRAPING" pour démarrer<br>
+    4️⃣ Les résultats s'afficheront automatiquement ici
 </div>
 """, unsafe_allow_html=True)
