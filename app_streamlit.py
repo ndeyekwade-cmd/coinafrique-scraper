@@ -171,11 +171,13 @@ def local_css():
         .alert-info {
             background: rgba(0, 131, 184, 0.15);
             border-left: 4px solid var(--primary-blue);
-            padding: 1rem;
+            padding: 2rem;
             border-radius: 8px;
-            margin: 1rem 0;
+            margin: 2rem auto;
             color: var(--text-light);
             border: 1px solid rgba(0,131,184,0.3);
+            text-align: center;
+            max-width: 800px;
         }
 
         .alert-success {
