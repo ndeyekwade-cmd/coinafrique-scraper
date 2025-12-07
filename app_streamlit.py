@@ -320,12 +320,17 @@ def local_css():
 
         .welcome-btn-wrapper {
             width: 100%;
-            max-width: 200px;
+            max-width: 180px;
             margin: 0 auto;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.6s;
+        }
+
+        .welcome-btn-wrapper .stButton>button {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.95rem;
         }
 
         .welcome-container .stButton>button {
