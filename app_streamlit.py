@@ -444,11 +444,12 @@ def visualiser_donnees(df, categorie_name):
 
 # ==================== PAGE WELCOME ====================
 if st.session_state.page == 'welcome':
+    # Container fixe pour tout centrer
+    st.markdown('<div class="welcome-container">', unsafe_allow_html=True)
+
     st.markdown("""
-    <div class="welcome-container">
         <h1 class="welcome-title">📊 CoinAfrique Analytics</h1>
         <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
-    </div>
     """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1, 1, 1])
@@ -456,6 +457,8 @@ if st.session_state.page == 'welcome':
         if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
             st.session_state.page = 'instructions'
             st.rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ==================== PAGE INSTRUCTIONS ====================
 elif st.session_state.page == 'instructions':
