@@ -504,7 +504,7 @@ if st.session_state.page == 'welcome':
     st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        if st.button("🚀 COMMENCER", key="welcome_btn"):
+        if st.button("→ VISITER", key="welcome_btn"):
             st.session_state.page = 'instructions'
             st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
