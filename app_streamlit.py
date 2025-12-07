@@ -40,10 +40,18 @@ def local_css():
             background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
         }
 
-        /* Sidebar */
+        /* Sidebar fixe */
         [data-testid="stSidebar"] {
             background-color: #1a1f2e;
             border-right: 1px solid rgba(0,131,184,0.2);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Masquer le bouton de collapse sidebar */
+        [data-testid="collapsedControl"] {
+            display: none;
         }
 
         [data-testid="stSidebar"] * {
@@ -366,10 +374,6 @@ with st.sidebar:
     st.markdown("---")
 
     scraper_btn = st.button("🚀 LANCER LE SCRAPING", use_container_width=True)
-
-    st.markdown("---")
-    st.markdown("### 📊 AIMS SENEGAL")
-    st.markdown("African Institute for Mathematical Sciences")
 
 # ==================== HEADER ====================
 st.markdown("""
