@@ -10,8 +10,12 @@ st.set_page_config(
     page_title="CoinAfrique Dashboard",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
+
+# Initialiser session state
+if 'page' not in st.session_state:
+    st.session_state.page = 'welcome'
 
 # Charger le CSS personnalisé
 def local_css():
@@ -231,6 +235,86 @@ def local_css():
         p, span, label, div {
             color: var(--text-light);
         }
+
+        /* Page d'accueil - Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .welcome-title {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            animation: fadeIn 1.4s ease-out;
+        }
+
+        .welcome-button {
+            animation: fadeIn 1.6s ease-out, pulse 2s infinite;
+        }
+
+        /* Instructions page */
+        .instructions-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .instruction-card {
+            background: rgba(26, 31, 46, 0.8);
+            border: 1px solid rgba(0,131,184,0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .instruction-card:hover {
+            transform: translateX(10px);
+            border-color: rgba(0,131,184,0.6);
+            box-shadow: 0 6px 20px rgba(247,25,56,0.3);
+        }
+
+        .instruction-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-red));
+            border-radius: 50%;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -252,7 +336,6 @@ def scraper_categorie(categorie_name, url, max_pages, selector_name):
     try:
         driver = webdriver.Chrome(options=options)
     except:
-        # Pour Streamlit Cloud avec chromium
         options.binary_location = "/usr/bin/chromium"
         driver = webdriver.Chrome(options=options)
 
@@ -303,8 +386,6 @@ def scraper_categorie(categorie_name, url, max_pages, selector_name):
     status_text.empty()
 
     df = pd.DataFrame(data)
-
-    # Nettoyage
     df = df.dropna(how='all')
     df = df.drop_duplicates(subset=['name', 'price', 'address'], keep='first')
 
@@ -314,18 +395,21 @@ def scraper_categorie(categorie_name, url, max_pages, selector_name):
 def visualiser_donnees(df, categorie_name):
     """Créer des visualisations pour une catégorie"""
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-    fig.suptitle(f'ANALYSE DES DONNÉES - {categorie_name}', fontsize=16, fontweight='bold', color='#070505')
+    fig.suptitle(f'ANALYSE DES DONNÉES - {categorie_name}', fontsize=16, fontweight='bold', color='#e8e8e8')
+    fig.patch.set_facecolor('#1a1f2e')
 
     # Top 10 des adresses
     if 'address' in df.columns and df['address'].notna().sum() > 0:
         top_addresses = df['address'].value_counts().head(10)
         axes[0].barh(range(len(top_addresses)), top_addresses.values, color='#0083B8')
         axes[0].set_yticks(range(len(top_addresses)))
-        axes[0].set_yticklabels(top_addresses.index, fontsize=9)
-        axes[0].set_xlabel('Nombre d\'annonces', fontweight='bold')
-        axes[0].set_title('Top 10 des adresses', fontweight='bold')
+        axes[0].set_yticklabels(top_addresses.index, fontsize=9, color='#e8e8e8')
+        axes[0].set_xlabel('Nombre d\'annonces', fontweight='bold', color='#e8e8e8')
+        axes[0].set_title('Top 10 des adresses', fontweight='bold', color='#e8e8e8')
         axes[0].invert_yaxis()
         axes[0].grid(axis='x', alpha=0.3, color='#cecdcd')
+        axes[0].set_facecolor('#1a1f2e')
+        axes[0].tick_params(colors='#e8e8e8')
 
     # Distribution des prix
     if 'price' in df.columns:
@@ -334,72 +418,226 @@ def visualiser_donnees(df, categorie_name):
 
         if len(prices_valid) > 0:
             axes[1].hist(prices_valid, bins=20, color='#F71938', edgecolor='black', alpha=0.7)
-            axes[1].set_xlabel('Prix (CFA)', fontweight='bold')
-            axes[1].set_ylabel('Fréquence', fontweight='bold')
-            axes[1].set_title('Distribution des prix', fontweight='bold')
+            axes[1].set_xlabel('Prix (CFA)', fontweight='bold', color='#e8e8e8')
+            axes[1].set_ylabel('Fréquence', fontweight='bold', color='#e8e8e8')
+            axes[1].set_title('Distribution des prix', fontweight='bold', color='#e8e8e8')
             axes[1].grid(axis='y', alpha=0.3, color='#cecdcd')
+            axes[1].set_facecolor('#1a1f2e')
+            axes[1].tick_params(colors='#e8e8e8')
 
             mean_price = prices_valid.mean()
             median_price = prices_valid.median()
             axes[1].axvline(mean_price, color='#0083B8', linestyle='--', linewidth=2, label=f'Moyenne: {mean_price:,.0f} CFA')
             axes[1].axvline(median_price, color='orange', linestyle='--', linewidth=2, label=f'Médiane: {median_price:,.0f} CFA')
-            axes[1].legend()
+            legend = axes[1].legend()
+            for text in legend.get_texts():
+                text.set_color('#e8e8e8')
 
     plt.tight_layout()
     return fig
 
-# ==================== SIDEBAR ====================
-with st.sidebar:
-    categories = {
-        "🐕 Chiens": {
-            "url": "https://sn.coinafrique.com/categorie/chiens",
-            "selector": "card-content"
-        },
-        "🐑 Moutons": {
-            "url": "https://sn.coinafrique.com/categorie/moutons",
-            "selector": "description"
-        },
-        "🐔 Poules, Lapins et Pigeons": {
-            "url": "https://sn.coinafrique.com/categorie/poules-lapins-et-pigeons",
-            "selector": "description"
-        },
-        "🐾 Autres Animaux": {
-            "url": "https://sn.coinafrique.com/categorie/autres-animaux",
-            "selector": "description"
+# ==================== PAGE WELCOME ====================
+if st.session_state.page == 'welcome':
+    st.markdown("""
+    <div class="welcome-container">
+        <h1 class="welcome-title">📊 CoinAfrique Analytics</h1>
+        <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
+            st.session_state.page = 'instructions'
+            st.rerun()
+
+# ==================== PAGE INSTRUCTIONS ====================
+elif st.session_state.page == 'instructions':
+    st.markdown("""
+    <div class="section-header">
+        <h2>📋 Instructions d'utilisation</h2>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="instructions-container">
+        <div class="instruction-card">
+            <span class="instruction-number">1</span>
+            <strong style="font-size: 1.2rem;">Sélectionner une catégorie</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem;">Choisissez parmi 4 catégories d'animaux disponibles sur CoinAfrique</p>
+        </div>
+
+        <div class="instruction-card">
+            <span class="instruction-number">2</span>
+            <strong style="font-size: 1.2rem;">Définir le nombre de pages</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem;">Spécifiez combien de pages vous souhaitez scraper (1-50)</p>
+        </div>
+
+        <div class="instruction-card">
+            <span class="instruction-number">3</span>
+            <strong style="font-size: 1.2rem;">Lancer le scraping</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem;">Cliquez sur le bouton et attendez la collecte automatique des données</p>
+        </div>
+
+        <div class="instruction-card">
+            <span class="instruction-number">4</span>
+            <strong style="font-size: 1.2rem;">Visualiser et exporter</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem;">Analysez les graphiques et exportez vos données en CSV ou Excel</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        if st.button("🎯 COMMENCER LE SCRAPING", use_container_width=True, key="start_scraping_btn"):
+            st.session_state.page = 'scraping'
+            st.rerun()
+
+# ==================== PAGE SCRAPING ====================
+elif st.session_state.page == 'scraping':
+    # Sidebar
+    with st.sidebar:
+        categories = {
+            "🐕 Chiens": {
+                "url": "https://sn.coinafrique.com/categorie/chiens",
+                "selector": "card-content"
+            },
+            "🐑 Moutons": {
+                "url": "https://sn.coinafrique.com/categorie/moutons",
+                "selector": "description"
+            },
+            "🐔 Poules, Lapins et Pigeons": {
+                "url": "https://sn.coinafrique.com/categorie/poules-lapins-et-pigeons",
+                "selector": "description"
+            },
+            "🐾 Autres Animaux": {
+                "url": "https://sn.coinafrique.com/categorie/autres-animaux",
+                "selector": "description"
+            }
         }
-    }
 
-    categorie_selectionnee = st.selectbox(
-        "📋 Choisir une catégorie:",
-        list(categories.keys())
-    )
+        categorie_selectionnee = st.selectbox(
+            "📋 Choisir une catégorie:",
+            list(categories.keys())
+        )
 
-    nb_pages = st.number_input(
-        "📄 Nombre de pages à scraper:",
-        min_value=1,
-        max_value=50,
-        value=5,
-        step=1
-    )
+        nb_pages = st.number_input(
+            "📄 Nombre de pages à scraper:",
+            min_value=1,
+            max_value=50,
+            value=5,
+            step=1
+        )
 
-    st.markdown("---")
+        st.markdown("---")
 
-    scraper_btn = st.button("🚀 LANCER LE SCRAPING", use_container_width=True)
+        scraper_btn = st.button("🚀 LANCER LE SCRAPING", use_container_width=True)
 
-# ==================== MAIN CONTENT ====================
-st.markdown("""
-<div class="section-header">
-    <h2>📊 CoinAfrique Analytics Dashboard</h2>
-</div>
-""", unsafe_allow_html=True)
+    # Header
+    st.markdown("""
+    <div class="section-header">
+        <h2>📊 CoinAfrique Analytics Dashboard</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="alert-info">
-    <strong>👋 Bienvenue sur le Dashboard CoinAfrique!</strong><br><br>
-    <b>Instructions:</b><br>
-    1️⃣ Sélectionnez une catégorie d'animaux dans la barre latérale<br>
-    2️⃣ Choisissez le nombre de pages à scraper (1-50)<br>
-    3️⃣ Cliquez sur "LANCER LE SCRAPING" pour démarrer<br>
-    4️⃣ Les résultats s'afficheront automatiquement ici
-</div>
-""", unsafe_allow_html=True)
+    # Scraping
+    if scraper_btn:
+        st.markdown("""
+        <div class="alert-info">
+            <strong>🔍 Scraping en cours...</strong><br>
+            Veuillez patienter pendant la collecte des données.
+        </div>
+        """, unsafe_allow_html=True)
+
+        config = categories[categorie_selectionnee]
+        df = scraper_categorie(
+            categorie_selectionnee,
+            config['url'],
+            nb_pages,
+            config['selector']
+        )
+
+        st.session_state['df'] = df
+        st.session_state['categorie'] = categorie_selectionnee
+
+        st.markdown(f"""
+        <div class="alert-success">
+            <strong>✅ Scraping terminé avec succès!</strong><br>
+            {len(df)} annonces collectées et nettoyées
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Affichage des résultats
+    if 'df' in st.session_state:
+        df = st.session_state['df']
+        categorie = st.session_state['categorie']
+
+        # KPIs
+        st.markdown("### 📈 INDICATEURS CLÉS")
+        col1, col2, col3, col4, col5 = st.columns(5)
+
+        with col1:
+            st.metric("📊 TOTAL ANNONCES", len(df))
+
+        with col2:
+            st.metric("💰 AVEC PRIX", df['price'].notna().sum())
+
+        with col3:
+            st.metric("📍 AVEC ADRESSE", df['address'].notna().sum())
+
+        with col4:
+            st.metric("🖼️ AVEC IMAGE", df['image_link'].notna().sum())
+
+        with col5:
+            completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
+            st.metric("✅ COMPLÉTUDE", f"{completion}%")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Tabs
+        tab1, tab2, tab3 = st.tabs(["📊 VISUALISATIONS", "📋 DONNÉES", "💾 EXPORT"])
+
+        with tab1:
+            st.markdown("### 📊 Analyse Graphique")
+            fig = visualiser_donnees(df, categorie)
+            st.pyplot(fig)
+
+        with tab2:
+            st.markdown(f"### 📋 Tableau des Données - {categorie}")
+            st.dataframe(df, use_container_width=True, height=450)
+
+        with tab3:
+            st.markdown("### 💾 Télécharger les Données")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                csv = df.to_csv(index=False, encoding='utf-8-sig')
+                st.download_button(
+                    label="📥 Télécharger CSV",
+                    data=csv,
+                    file_name=f"{categorie.replace(' ', '_')}_data.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
+
+            with col2:
+                excel_buffer = pd.ExcelWriter('temp.xlsx', engine='openpyxl')
+                df.to_excel(excel_buffer, index=False)
+                excel_buffer.close()
+
+                with open('temp.xlsx', 'rb') as f:
+                    st.download_button(
+                        label="📥 Télécharger Excel",
+                        data=f,
+                        file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        use_container_width=True
+                    )
+    else:
+        st.markdown("""
+        <div class="alert-info">
+            <strong>👋 Prêt à commencer!</strong><br><br>
+            Configurez vos paramètres dans la barre latérale et cliquez sur "LANCER LE SCRAPING"
+        </div>
+        """, unsafe_allow_html=True)
