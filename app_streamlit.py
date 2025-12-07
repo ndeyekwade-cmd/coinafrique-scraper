@@ -310,7 +310,7 @@ def local_css():
         .welcome-subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             text-align: center;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
@@ -321,7 +321,6 @@ def local_css():
         .welcome-btn-wrapper {
             display: flex;
             justify-content: center;
-            margin-top: 0.5rem;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
