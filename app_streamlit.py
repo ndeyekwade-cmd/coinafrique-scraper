@@ -115,11 +115,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# En-tête de l'application avec logo AIMS
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.image("WhatsApp Image 2025-11-29 à 12.52.58_0067bc42.jpg", use_container_width=True)
-
 st.markdown("""
 <div class="header-container">
     <h1 class="header-title">🐾 CoinAfrique Animal Scraper</h1>
