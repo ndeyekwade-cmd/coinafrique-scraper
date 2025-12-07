@@ -7,121 +7,216 @@ import time
 
 # Configuration de la page
 st.set_page_config(
-    page_title="CoinAfrique Scraper",
-    page_icon="🐾",
+    page_title="CoinAfrique Dashboard",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# CSS simple avec couleur AIMS
+# CSS Dashboard professionnel
 st.markdown("""
 <style>
-    /* En-tête simple */
-    .header-container {
-        background: #8B1538;
-        padding: 2rem;
-        border-radius: 0.8rem;
+    /* Variables de couleurs */
+    :root {
+        --aims-red: #8B1538;
+        --aims-red-dark: #6B0F2A;
+        --bg-light: #f8f9fa;
+        --text-dark: #2d3436;
+        --border-color: #dee2e6;
+    }
+
+    /* Background général */
+    .stApp {
+        background-color: var(--bg-light);
+    }
+
+    /* Barre latérale */
+    [data-testid="stSidebar"] {
+        background: white;
+        border-right: 1px solid var(--border-color);
+    }
+
+    /* En-tête Dashboard */
+    .dashboard-header {
+        background: linear-gradient(135deg, var(--aims-red) 0%, var(--aims-red-dark) 100%);
+        padding: 1.5rem 2rem;
+        border-radius: 10px;
         color: white;
         margin-bottom: 2rem;
-        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
-    .header-title {
-        font-size: 2.5rem;
+    .dashboard-title {
+        font-size: 1.8rem;
         font-weight: 700;
         margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    .header-subtitle {
-        font-size: 1.1rem;
-        margin-top: 0.5rem;
-        opacity: 0.9;
+    .dashboard-subtitle {
+        font-size: 0.95rem;
+        margin-top: 0.3rem;
+        opacity: 0.95;
     }
 
-    /* Cartes simples */
-    .stat-card {
+    /* Cartes de statistiques */
+    .metric-card {
         background: white;
         padding: 1.5rem;
-        border-radius: 0.5rem;
-        border-left: 4px solid #8B1538;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-top: 3px solid var(--aims-red);
+        transition: transform 0.2s;
+        height: 100%;
     }
 
-    .stat-number {
-        font-size: 2rem;
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .metric-value {
+        font-size: 2.2rem;
         font-weight: 700;
-        color: #8B1538;
+        color: var(--aims-red);
+        margin: 0.5rem 0;
     }
 
-    .stat-label {
-        color: #666;
-        font-size: 0.9rem;
+    .metric-label {
+        font-size: 0.85rem;
+        color: #6c757d;
         text-transform: uppercase;
-        margin-top: 0.5rem;
-    }
-
-    /* Bouton simple */
-    .stButton>button {
-        background: #8B1538;
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 0.5rem;
+        letter-spacing: 0.5px;
         font-weight: 600;
     }
 
+    .metric-icon {
+        font-size: 2rem;
+        opacity: 0.2;
+        float: right;
+    }
+
+    /* Boutons */
+    .stButton>button {
+        background: var(--aims-red);
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 2px 4px rgba(139,21,56,0.2);
+    }
+
     .stButton>button:hover {
-        background: #6B0F2A;
+        background: var(--aims-red-dark);
+        box-shadow: 0 4px 8px rgba(139,21,56,0.3);
+        transform: translateY(-1px);
     }
 
     /* Progress bar */
     .stProgress > div > div > div > div {
-        background: #8B1538;
+        background: var(--aims-red);
     }
 
     /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+    }
+
     .stTabs [aria-selected="true"] {
-        background-color: #8B1538 !important;
+        background: var(--aims-red);
         color: white;
     }
 
-    /* Boxes */
-    .success-box {
-        background: #D1FAE5;
-        border-left: 4px solid #10B981;
-        padding: 1rem;
-        border-radius: 0.5rem;
+    /* Alert boxes */
+    .alert-box {
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
         margin: 1rem 0;
+        border-left: 4px solid;
     }
 
-    .info-box {
-        background: #FEF3C7;
-        border-left: 4px solid #8B1538;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin: 1rem 0;
+    .alert-success {
+        background: #d4edda;
+        border-color: #28a745;
+        color: #155724;
+    }
+
+    .alert-info {
+        background: #fff3cd;
+        border-color: #ffc107;
+        color: #856404;
+    }
+
+    .alert-warning {
+        background: #f8d7da;
+        border-color: #dc3545;
+        color: #721c24;
+    }
+
+    /* Section containers */
+    .section-container {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--bg-light);
     }
 
     /* Footer */
-    .footer-aims {
+    .dashboard-footer {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
         text-align: center;
-        padding: 2rem;
-        background: #8B1538;
-        color: white;
-        border-radius: 0.5rem;
         margin-top: 2rem;
+        border-top: 3px solid var(--aims-red);
+    }
+
+    /* Sidebar styling */
+    .sidebar-content {
+        padding: 1rem;
+    }
+
+    /* DataFrames */
+    .stDataFrame {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Selectbox & Input */
+    .stSelectbox, .stNumberInput {
+        margin-bottom: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
+# En-tête du Dashboard
 st.markdown("""
-<div class="header-container">
-    <h1 class="header-title">🐾 CoinAfrique Animal Scraper</h1>
-    <p class="header-subtitle">Scraping intelligent des annonces d'animaux sur CoinAfrique.com</p>
-    <div class="aims-badge">
-        AIMS SENEGAL | African Institute for Mathematical Sciences
-    </div>
+<div class="dashboard-header">
+    <h1 class="dashboard-title">📊 CoinAfrique Analytics Dashboard</h1>
+    <p class="dashboard-subtitle">Plateforme d'analyse et de collecte de données | AIMS Senegal</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -239,8 +334,9 @@ def visualiser_donnees(df, categorie_name):
 
 # Sidebar pour la configuration
 with st.sidebar:
-    st.markdown("### ⚙️ Configuration")
+    st.markdown("### ⚙️ Configuration du Scraping")
     st.markdown("---")
+    st.markdown("**Sélectionnez les paramètres:**")
 
     categories = {
         "🐕 Chiens": {
@@ -285,7 +381,7 @@ with st.sidebar:
 # Corps principal
 if scraper_btn:
     st.markdown(f"""
-    <div class="info-box">
+    <div class="alert-box alert-info">
         <strong>🔍 Scraping en cours...</strong><br>
         Catégorie: {categorie_selectionnee}<br>
         Pages à scraper: {nb_pages}
@@ -306,8 +402,8 @@ if scraper_btn:
     st.session_state['categorie'] = categorie_selectionnee
 
     st.markdown(f"""
-    <div class="success-box">
-        <strong>✅ Scraping terminé!</strong><br>
+    <div class="alert-box alert-success">
+        <strong>✅ Scraping terminé avec succès!</strong><br>
         {len(df)} annonces collectées et nettoyées
     </div>
     """, unsafe_allow_html=True)
@@ -317,62 +413,76 @@ if 'df' in st.session_state:
     df = st.session_state['df']
     categorie = st.session_state['categorie']
 
+    # Section: Statistiques KPIs
+    st.markdown("## 📈 Indicateurs Clés de Performance")
+
     # Statistiques en cartes
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.markdown(f"""
-        <div class="stat-card">
-            <div class="stat-number">{len(df)}</div>
-            <div class="stat-label">Total Annonces</div>
+        <div class="metric-card">
+            <span class="metric-icon">📊</span>
+            <div class="metric-value">{len(df)}</div>
+            <div class="metric-label">Total Annonces</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown(f"""
-        <div class="stat-card">
-            <div class="stat-number">{df['price'].notna().sum()}</div>
-            <div class="stat-label">Avec Prix</div>
+        <div class="metric-card">
+            <span class="metric-icon">💰</span>
+            <div class="metric-value">{df['price'].notna().sum()}</div>
+            <div class="metric-label">Avec Prix</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown(f"""
-        <div class="stat-card">
-            <div class="stat-number">{df['address'].notna().sum()}</div>
-            <div class="stat-label">Avec Adresse</div>
+        <div class="metric-card">
+            <span class="metric-icon">📍</span>
+            <div class="metric-value">{df['address'].notna().sum()}</div>
+            <div class="metric-label">Avec Adresse</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col4:
         st.markdown(f"""
-        <div class="stat-card">
-            <div class="stat-number">{df['image_link'].notna().sum()}</div>
-            <div class="stat-label">Avec Image</div>
+        <div class="metric-card">
+            <span class="metric-icon">🖼️</span>
+            <div class="metric-value">{df['image_link'].notna().sum()}</div>
+            <div class="metric-label">Avec Image</div>
         </div>
         """, unsafe_allow_html=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
+
     # Onglets pour les différentes vues
-    tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Données", "💾 Export"])
+    st.markdown("## 📊 Analyse des Données")
+    tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Tableau de Données", "💾 Exporter"])
 
     with tab1:
-        st.markdown("### 📊 Analyse visuelle des données")
+        st.markdown('<div class="section-container">', unsafe_allow_html=True)
         fig = visualiser_donnees(df, categorie)
         st.pyplot(fig)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with tab2:
-        st.markdown("### 📋 Tableau des données")
-        st.dataframe(df, use_container_width=True, height=400)
+        st.markdown('<div class="section-container">', unsafe_allow_html=True)
+        st.markdown(f"**Catégorie:** {categorie} | **Nombre total:** {len(df)} annonces")
+        st.dataframe(df, use_container_width=True, height=450)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with tab3:
-        st.markdown("### 💾 Exporter les données")
+        st.markdown('<div class="section-container">', unsafe_allow_html=True)
+        st.markdown("### 💾 Options d'Export")
 
         col1, col2 = st.columns(2)
 
         with col1:
             csv = df.to_csv(index=False, encoding='utf-8-sig')
             st.download_button(
-                label="📥 Télécharger CSV",
+                label="📥 Télécharger en CSV",
                 data=csv,
                 file_name=f"{categorie.replace(' ', '_')}_data.csv",
                 mime="text/csv",
@@ -386,55 +496,67 @@ if 'df' in st.session_state:
 
             with open('temp.xlsx', 'rb') as f:
                 st.download_button(
-                    label="📥 Télécharger Excel",
+                    label="📥 Télécharger en Excel",
                     data=f,
                     file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
 
+        st.markdown('</div>', unsafe_allow_html=True)
+
 else:
-    # Message d'accueil
+    # Message d'accueil avec style dashboard
     st.markdown("""
-    <div class="info-box">
-        <strong>👋 Bienvenue!</strong><br>
-        Sélectionnez une catégorie dans la barre latérale et cliquez sur "Lancer le scraping" pour commencer.
+    <div class="alert-box alert-info">
+        <strong>👋 Bienvenue sur le Dashboard CoinAfrique!</strong><br>
+        Configurez vos paramètres dans la barre latérale et lancez le scraping pour commencer l'analyse.
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("---")
-
-    st.markdown("### 🎯 Fonctionnalités")
+    # Vue d'ensemble
+    st.markdown("## 🎯 Vue d'Ensemble")
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown("""
-        - ✅ Scraping de 4 catégories d'animaux
-        - ✅ Nettoyage automatique des données
-        - ✅ Visualisations interactives
-        """)
+        <div class="section-container">
+            <h3 class="section-title">📊 Fonctionnalités</h3>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="padding: 0.5rem 0;">✅ Scraping automatisé de 4 catégories</li>
+                <li style="padding: 0.5rem 0;">✅ Nettoyage intelligent des données</li>
+                <li style="padding: 0.5rem 0;">✅ Visualisations analytiques avancées</li>
+                <li style="padding: 0.5rem 0;">✅ Export multi-format (CSV, Excel)</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
-        - ✅ Export CSV et Excel
-        - ✅ Interface moderne et intuitive
-        - ✅ Suivi en temps réel du scraping
-        """)
+        <div class="section-container">
+            <h3 class="section-title">📈 Catégories Disponibles</h3>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="padding: 0.5rem 0;">🐕 Chiens</li>
+                <li style="padding: 0.5rem 0;">🐑 Moutons</li>
+                <li style="padding: 0.5rem 0;">🐔 Poules, Lapins et Pigeons</li>
+                <li style="padding: 0.5rem 0;">🐾 Autres Animaux</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-# Footer AIMS
+# Footer Dashboard
 st.markdown("---")
 st.markdown("""
-<div class="footer-aims">
-    <h3 style="margin: 0 0 1rem 0;">🐾 CoinAfrique Animal Scraper</h3>
-    <p style="margin: 0.5rem 0; font-size: 1.1rem;">
-        <strong>Développé avec ❤️ par AIMS Senegal</strong>
-    </p>
-    <p style="margin: 0.5rem 0; color: #D4AF37; font-size: 0.9rem;">
-        African Institute for Mathematical Sciences | Centre d'Excellence en Sciences Mathématiques
-    </p>
-    <p style="margin: 1rem 0 0 0; font-size: 0.85rem; opacity: 0.8;">
-        © 2025 AIMS Senegal - Projet Data Collection | Ndeye Khady Wade
-    </p>
+<div class="dashboard-footer">
+    <div style="margin-bottom: 0.5rem;">
+        <strong style="font-size: 1.1rem;">📊 CoinAfrique Analytics Dashboard</strong>
+    </div>
+    <div style="color: #6c757d; font-size: 0.9rem; margin-top: 0.5rem;">
+        AIMS Senegal | African Institute for Mathematical Sciences
+    </div>
+    <div style="color: #adb5bd; font-size: 0.85rem; margin-top: 0.5rem;">
+        © 2025 Projet Data Collection | Ndeye Khady Wade
+    </div>
 </div>
 """, unsafe_allow_html=True)
