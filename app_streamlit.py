@@ -309,23 +309,27 @@ def local_css():
         .welcome-subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
-            margin-bottom: 2.5rem;
+            margin-bottom: 0.5rem;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.3s;
         }
 
-        .welcome-btn-container {
+        .welcome-btn-wrapper {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
             animation: fadeInUp 1.4s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.6s;
         }
 
-        .welcome-btn-container .stButton>button {
+        .welcome-container .stButton>button {
             animation: pulse 2s ease-in-out infinite;
             animation-delay: 1.5s;
+            width: 100%;
         }
 
         /* Instructions page */
@@ -488,20 +492,20 @@ def visualiser_donnees(df, categorie_name):
 
 # ==================== PAGE WELCOME ====================
 if st.session_state.page == 'welcome':
+    st.markdown('<div class="welcome-container">', unsafe_allow_html=True)
+
     st.markdown("""
-    <div class="welcome-container">
         <h1 class="welcome-title">📊 CoinAfrique Analytics</h1>
         <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
-    </div>
     """, unsafe_allow_html=True)
 
-    # Conteneur pour le bouton avec animation
-    st.markdown('<div class="welcome-btn-container" style="position: fixed; bottom: 40%; left: 50%; transform: translateX(-50%); z-index: 1000;">', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col2:
-        if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
-            st.session_state.page = 'instructions'
-            st.rerun()
+    # Bouton dans un wrapper centré
+    st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
+    if st.button("🚀 COMMENCER", use_container_width=True, key="welcome_btn"):
+        st.session_state.page = 'instructions'
+        st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==================== PAGE INSTRUCTIONS ====================
