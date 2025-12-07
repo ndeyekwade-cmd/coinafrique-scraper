@@ -519,33 +519,46 @@ elif st.session_state.page == 'instructions':
     </div>
     """, unsafe_allow_html=True)
 
+    # Instructions en cartes séparées
+    st.markdown('<div class="instructions-container">', unsafe_allow_html=True)
+
+    # Instruction 1
     st.markdown("""
-    <div class="instructions-container">
         <div class="instruction-card">
             <span class="instruction-number">1</span>
             <strong style="font-size: 1.2rem;">Sélectionner une catégorie</strong>
             <p style="margin-left: 56px; margin-top: 0.5rem;">Choisissez parmi 4 catégories d'animaux disponibles sur CoinAfrique</p>
         </div>
+    """, unsafe_allow_html=True)
 
+    # Instruction 2
+    st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">2</span>
             <strong style="font-size: 1.2rem;">Définir le nombre de pages</strong>
             <p style="margin-left: 56px; margin-top: 0.5rem;">Spécifiez combien de pages vous souhaitez scraper (1-50)</p>
         </div>
+    """, unsafe_allow_html=True)
 
+    # Instruction 3
+    st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">3</span>
             <strong style="font-size: 1.2rem;">Lancer le scraping</strong>
             <p style="margin-left: 56px; margin-top: 0.5rem;">Cliquez sur le bouton et attendez la collecte automatique des données</p>
         </div>
+    """, unsafe_allow_html=True)
 
+    # Instruction 4
+    st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">4</span>
             <strong style="font-size: 1.2rem;">Visualiser et exporter</strong>
             <p style="margin-left: 56px; margin-top: 0.5rem;">Analysez les graphiques et exportez vos données en CSV ou Excel</p>
         </div>
-    </div>
     """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<br><br>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
