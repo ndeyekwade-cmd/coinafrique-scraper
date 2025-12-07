@@ -547,9 +547,10 @@ elif st.session_state.page == 'instructions':
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 1, 1])
+    st.markdown('<br><br>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        if st.button("🎯 COMMENCER LE SCRAPING", use_container_width=True, key="start_scraping_btn"):
+        if st.button("→ COMMENCER", key="start_scraping_btn"):
             st.session_state.page = 'scraping'
             st.rerun()
 
