@@ -336,9 +336,6 @@ def visualiser_donnees(df, categorie_name):
 
 # ==================== SIDEBAR ====================
 with st.sidebar:
-    st.markdown("## ⚙️ CONFIGURATION")
-    st.markdown("---")
-
     categories = {
         "🐕 Chiens": {
             "url": "https://sn.coinafrique.com/categorie/chiens",
