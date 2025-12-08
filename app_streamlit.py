@@ -668,51 +668,57 @@ elif st.session_state.page == 'scraping':
     <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
     """, unsafe_allow_html=True)
 
-    # Style pour menu fixe et scroll
+    # Style pour menu fixe et scroll indépendant
     st.markdown("""
     <style>
-        /* Conteneur global des colonnes */
-        div[data-testid="stHorizontalBlock"] {
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 0 !important;
+        /* Désactiver le scroll de la page principale */
+        section.main > div {
+            max-height: calc(100vh - 5rem) !important;
+            overflow: hidden !important;
         }
 
-        /* Menu gauche FIXE avec position sticky */
+        /* Conteneur global des colonnes avec hauteur fixe */
+        div[data-testid="stHorizontalBlock"] {
+            display: flex !important;
+            height: calc(100vh - 10rem) !important;
+            overflow: hidden !important;
+        }
+
+        /* Menu gauche FIXE - pas de scroll */
         div[data-testid="stHorizontalBlock"] > div:first-child {
-            position: sticky !important;
-            top: 0 !important;
-            align-self: flex-start !important;
-            max-height: 100vh !important;
-            overflow-y: auto !important;
+            height: 100% !important;
+            overflow-y: hidden !important;
+            overflow-x: hidden !important;
             flex-shrink: 0 !important;
             border-right: 4px solid #0083B8 !important;
             padding-right: 1rem !important;
-            z-index: 10 !important;
         }
 
-        /* Colonne droite scrollable naturellement */
+        /* Colonne droite SCROLLABLE */
         div[data-testid="stHorizontalBlock"] > div:last-child {
+            height: 100% !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
             padding-left: 1rem !important;
             flex-grow: 1 !important;
         }
 
-        /* Scrollbar personnalisée pour le menu */
-        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar {
-            width: 6px;
+        /* Scrollbar personnalisée pour la colonne droite */
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar {
+            width: 8px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar-track {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-track {
             background: rgba(26, 31, 46, 0.3);
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar-thumb {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-thumb {
             background: rgba(0, 131, 184, 0.6);
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar-thumb:hover {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-thumb:hover {
             background: rgba(0, 131, 184, 0.8);
         }
     </style>
