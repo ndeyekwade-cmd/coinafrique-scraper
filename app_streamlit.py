@@ -668,17 +668,42 @@ elif st.session_state.page == 'scraping':
     <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
     """, unsafe_allow_html=True)
 
-    # Style pour la séparation verticale
+    # Style pour menu fixe et colonne scrollable
     st.markdown("""
     <style>
-        /* Barre de séparation verticale entre les colonnes */
+        /* Menu gauche FIXE */
         div[data-testid="stHorizontalBlock"] > div:first-child {
+            position: fixed !important;
+            left: 0 !important;
+            top: 4rem !important;
+            width: 17.5% !important;
+            height: calc(100vh - 4rem) !important;
+            overflow-y: auto !important;
             border-right: 4px solid #0083B8 !important;
             padding-right: 1rem !important;
+            padding-left: 2rem !important;
+            z-index: 100 !important;
         }
 
+        /* Colonne droite avec marge pour compenser le menu fixe */
         div[data-testid="stHorizontalBlock"] > div:last-child {
+            margin-left: 20% !important;
             padding-left: 1rem !important;
+            width: 80% !important;
+        }
+
+        /* Scrollbar personnalisée pour le menu gauche */
+        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar-track {
+            background: rgba(26, 31, 46, 0.3);
+        }
+
+        div[data-testid="stHorizontalBlock"] > div:first-child::-webkit-scrollbar-thumb {
+            background: rgba(0, 131, 184, 0.6);
+            border-radius: 3px;
         }
     </style>
     """, unsafe_allow_html=True)
