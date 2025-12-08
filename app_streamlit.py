@@ -620,7 +620,8 @@ elif st.session_state.page == 'scraping':
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-align: center;
-            margin-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 0.3rem;
             animation: fadeInDown 1s ease-out, glow 3s ease-in-out infinite;
         }
 
@@ -628,11 +629,17 @@ elif st.session_state.page == 'scraping':
             color: #e8e8e8;
             font-size: 1.1rem;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
             animation-delay: 0.3s;
+        }
+
+        /* Réduire l'espace en haut de la page */
+        .main > div:first-child {
+            padding-top: 1rem !important;
         }
     </style>
 
