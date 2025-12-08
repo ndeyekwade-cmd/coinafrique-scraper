@@ -53,9 +53,9 @@ def local_css():
             overflow-y: auto;
         }
 
-        /* Masquer le bouton de collapse sidebar */
+        /* Bouton pour ouvrir/fermer le sidebar */
         [data-testid="collapsedControl"] {
-            display: none;
+            display: block;
         }
 
         [data-testid="stSidebar"] * {
@@ -709,8 +709,11 @@ elif st.session_state.page == 'scraping':
         <h1 style="color: #0083B8; font-size: 3rem; text-align: center; margin-bottom: 1rem;">
             Bienvenue sur votre Dashboard
         </h1>
-        <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 3rem;">
-            Choisissez une option dans le menu latéral pour commencer
+        <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 1rem;">
+            Utilisez le menu à gauche pour commencer
+        </p>
+        <p style="color: #F71938; font-size: 1rem; text-align: center; margin-bottom: 3rem;">
+            ← Si le menu n'est pas visible, cliquez sur la flèche en haut à gauche
         </p>
         """, unsafe_allow_html=True)
 
