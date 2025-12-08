@@ -472,8 +472,9 @@ def visualiser_donnees(df, categorie_name):
         axes[0].tick_params(colors='#e8e8e8')
 
     if 'price' in df.columns:
-        df['price_num'] = df['price'].str.extract(r'(\d+)').astype(float)
-        prices_valid = df['price_num'].dropna()
+        df_temp = df.copy()
+        df_temp['price_num'] = df_temp['price'].str.extract(r'(\d+)').astype(float)
+        prices_valid = df_temp['price_num'].dropna()
 
         if len(prices_valid) > 0:
             axes[1].hist(prices_valid, bins=20, color='#F71938', edgecolor='black', alpha=0.7)
