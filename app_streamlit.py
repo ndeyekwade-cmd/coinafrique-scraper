@@ -777,8 +777,18 @@ elif st.session_state.page == 'scraping':
                     df = pd.read_csv(fichier, encoding='utf-8-sig')
 
                     # Renommer les colonnes pour correspondre au format attendu
+                    rename_map = {}
                     if 'adress' in df.columns:
-                        df = df.rename(columns={'adress': 'address', 'img_link': 'image_link'})
+                        rename_map['adress'] = 'address'
+                    if 'location' in df.columns:
+                        rename_map['location'] = 'address'
+                    if 'img_link' in df.columns:
+                        rename_map['img_link'] = 'image_link'
+                    if 'image' in df.columns:
+                        rename_map['image'] = 'image_link'
+
+                    if rename_map:
+                        df = df.rename(columns=rename_map)
 
                     # Garder seulement les colonnes nécessaires
                     colonnes_necessaires = ['name', 'price', 'address', 'image_link']
@@ -907,13 +917,16 @@ elif st.session_state.page == 'scraping':
                 st.metric("📊 TOTAL ANNONCES", len(df))
 
             with col2:
-                st.metric("💰 AVEC PRIX", df['price'].notna().sum())
+                price_count = df['price'].notna().sum() if 'price' in df.columns else 0
+                st.metric("💰 AVEC PRIX", price_count)
 
             with col3:
-                st.metric("📍 AVEC ADRESSE", df['address'].notna().sum())
+                address_count = df['address'].notna().sum() if 'address' in df.columns else 0
+                st.metric("📍 AVEC ADRESSE", address_count)
 
             with col4:
-                st.metric("🖼️ AVEC IMAGE", df['image_link'].notna().sum())
+                image_count = df['image_link'].notna().sum() if 'image_link' in df.columns else 0
+                st.metric("🖼️ AVEC IMAGE", image_count)
 
             with col5:
                 completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
