@@ -703,36 +703,48 @@ elif st.session_state.page == 'scraping':
 
     # Si aucune donnée n'est chargée, afficher la page d'accueil du dashboard
     if 'df' not in st.session_state:
-        st.markdown("""
-        <div style="text-align: center; padding: 4rem 2rem;">
-            <h1 style="color: #0083B8; font-size: 3rem; margin-bottom: 1rem;">
-                Bienvenue sur votre Dashboard
-            </h1>
-            <p style="color: #e8e8e8; font-size: 1.3rem; margin-bottom: 3rem;">
-                Choisissez une option dans le menu latéral pour commencer
-            </p>
+        st.markdown("<br><br>", unsafe_allow_html=True)
 
-            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 3rem;">
+        st.markdown("""
+        <h1 style="color: #0083B8; font-size: 3rem; text-align: center; margin-bottom: 1rem;">
+            Bienvenue sur votre Dashboard
+        </h1>
+        <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 3rem;">
+            Choisissez une option dans le menu latéral pour commencer
+        </p>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Utiliser des colonnes Streamlit pour les cartes
+        col1, col2, col3 = st.columns([1, 2, 1])
+
+        with col2:
+            col_card1, col_card2 = st.columns(2)
+
+            with col_card1:
+                st.markdown("""
                 <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(0,131,184,0.3);
-                            border-radius: 12px; padding: 2rem; width: 300px; text-align: left;">
+                            border-radius: 12px; padding: 2rem; height: 200px;">
                     <h3 style="color: #0083B8; margin-top: 0;">📂 Option 1</h3>
                     <p style="color: #e8e8e8; line-height: 1.6;">
-                        <strong>Charger des données existantes</strong><br>
+                        <strong>Charger des données existantes</strong><br><br>
                         Accédez instantanément à 3479 annonces déjà collectées
                     </p>
                 </div>
+                """, unsafe_allow_html=True)
 
+            with col_card2:
+                st.markdown("""
                 <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(247,25,56,0.3);
-                            border-radius: 12px; padding: 2rem; width: 300px; text-align: left;">
+                            border-radius: 12px; padding: 2rem; height: 200px;">
                     <h3 style="color: #F71938; margin-top: 0;">🔍 Option 2</h3>
                     <p style="color: #e8e8e8; line-height: 1.6;">
-                        <strong>Scraper de nouvelles données</strong><br>
+                        <strong>Scraper de nouvelles données</strong><br><br>
                         Collectez des données fraîches en temps réel
                     </p>
                 </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
 
     # Gestion du scraping
     if scraper_btn:
