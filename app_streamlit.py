@@ -644,30 +644,13 @@ elif st.session_state.page == 'scraping':
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        # Style pour différencier menu et contenu
+        # Wrapper avec fond sombre pour le menu
         st.markdown("""
-        <style>
-            /* Conteneur des colonnes */
-            div[data-testid="column"] {
-                position: relative;
-            }
-
-            /* Menu à gauche - fond très sombre */
-            div[data-testid="stVerticalBlock"] > div:first-child div[data-testid="column"]:first-child {
-                background: linear-gradient(135deg, rgba(10, 15, 20, 0.9) 0%, rgba(20, 25, 35, 0.9) 100%);
-                border-right: 3px solid #0083B8;
-                padding: 2rem 1.5rem;
-                min-height: 80vh;
-            }
-
-            /* Zone contenu à droite - fond clair */
-            div[data-testid="stVerticalBlock"] > div:first-child div[data-testid="column"]:last-child {
-                background: linear-gradient(135deg, rgba(30, 35, 45, 0.4) 0%, rgba(26, 31, 46, 0.4) 100%);
-                padding: 2rem;
-                min-height: 80vh;
-                margin-left: 1rem;
-            }
-        </style>
+        <div style="background: linear-gradient(135deg, rgba(10, 15, 20, 0.95) 0%, rgba(20, 25, 35, 0.95) 100%);
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    border-right: 4px solid #0083B8;
+                    min-height: 70vh;">
         """, unsafe_allow_html=True)
 
         # Données pré-collectées
@@ -757,8 +740,18 @@ elif st.session_state.page == 'scraping':
                 else:
                     st.warning("Écrivez un commentaire.")
 
+        # Fermer le wrapper du menu
+        st.markdown("</div>", unsafe_allow_html=True)
+
     # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
     with col_content:
+        # Wrapper avec fond clair pour le contenu
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(35, 40, 50, 0.5) 0%, rgba(30, 35, 45, 0.5) 100%);
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    min-height: 70vh;">
+        """, unsafe_allow_html=True)
         # Zone vide au démarrage - les données s'afficheront après chargement/scraping
         if 'df' not in st.session_state:
             pass  # Rien à afficher, juste le header en haut
@@ -893,3 +886,6 @@ elif st.session_state.page == 'scraping':
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         use_container_width=True
                     )
+
+        # Fermer le wrapper du contenu
+        st.markdown("</div>", unsafe_allow_html=True)
