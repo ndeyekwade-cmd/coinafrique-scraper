@@ -616,16 +616,13 @@ elif st.session_state.page == 'scraping':
     </div>
     """, unsafe_allow_html=True)
 
-    # Créer 2 colonnes: menu à gauche, contenu à droite
-    col_menu, col_content = st.columns([1, 3])
+    # Créer 2 colonnes: menu à gauche (limité), contenu à droite (large)
+    col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        st.markdown("## 📊 MENU")
-        st.markdown("---")
 
         # Données pré-collectées
-        with st.expander("📂 Données pré-collectées", expanded=True):
-            st.markdown("**Charger des données existantes**")
+        with st.expander("📂 Données", expanded=True):
 
             datasets_disponibles = {
                 "Chiens (860 annonces)": "chiens.csv",
@@ -635,12 +632,12 @@ elif st.session_state.page == 'scraping':
             }
 
             dataset_choisi = st.selectbox(
-                "Sélectionner un jeu de données:",
+                "Catégorie:",
                 list(datasets_disponibles.keys()),
                 key="dataset_select"
             )
 
-            if st.button("CHARGER LES DONNÉES", use_container_width=True, key="load_data_btn"):
+            if st.button("CHARGER", use_container_width=True, key="load_data_btn"):
                 try:
                     fichier = datasets_disponibles[dataset_choisi]
                     df = pd.read_csv(fichier, encoding='utf-8-sig')
@@ -660,15 +657,7 @@ elif st.session_state.page == 'scraping':
                 except Exception as e:
                     st.error(f"Erreur lors du chargement: {str(e)}")
 
-        with st.expander("📈 Visualiser les données", expanded=False):
-            if 'df' in st.session_state:
-                st.success(f"✅ {len(st.session_state['df'])} annonces disponibles")
-                if st.button("Voir les statistiques", key="view_stats"):
-                    st.session_state['show_section'] = 'stats'
-            else:
-                st.info("Aucune donnée disponible. Chargez des données existantes ou lancez un scraping.")
-
-        with st.expander("🔍 Scraper de nouvelles données", expanded=False):
+        with st.expander("🔍 Scraper", expanded=False):
             categories = {
                 "🐕 Chiens": {
                     "url": "https://sn.coinafrique.com/categorie/chiens",
@@ -689,13 +678,13 @@ elif st.session_state.page == 'scraping':
             }
 
             categorie_selectionnee = st.selectbox(
-                "📋 Catégorie:",
+                "Catégorie:",
                 list(categories.keys()),
                 key="cat_select"
             )
 
             nb_pages = st.number_input(
-                "📄 Nombre de pages:",
+                "Pages:",
                 min_value=1,
                 max_value=50,
                 value=5,
@@ -703,26 +692,21 @@ elif st.session_state.page == 'scraping':
                 key="nb_pages_input"
             )
 
-            st.markdown("<br>", unsafe_allow_html=True)
-            scraper_btn = st.button("🚀 LANCER", use_container_width=True, key="scrape_btn")
+            scraper_btn = st.button("LANCER", use_container_width=True, key="scrape_btn")
 
         with st.expander("💬 Feedback", expanded=False):
-            st.markdown("**Votre avis compte!**")
             feedback = st.text_area(
-                "Partagez vos commentaires:",
-                placeholder="Que pensez-vous de cette application?",
-                height=100,
-                key="feedback_text"
+                "Commentaire:",
+                placeholder="Votre avis...",
+                height=70,
+                key="feedback_text",
+                label_visibility="collapsed"
             )
-            if st.button("📤 Envoyer", use_container_width=True, key="send_feedback"):
+            if st.button("ENVOYER", use_container_width=True, key="send_feedback"):
                 if feedback:
-                    st.success("Merci pour votre feedback!")
+                    st.success("Merci!")
                 else:
-                    st.warning("Veuillez écrire un commentaire.")
-
-        st.markdown("---")
-        st.markdown("**AIMS Senegal**")
-        st.caption("© 2025 Ndeye Khady Wade")
+                    st.warning("Écrivez un commentaire.")
 
     # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
     with col_content:
