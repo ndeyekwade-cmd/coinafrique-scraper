@@ -668,10 +668,10 @@ elif st.session_state.page == 'scraping':
     <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
     """, unsafe_allow_html=True)
 
-    # Style pour la séparation verticale
+    # Style pour la séparation verticale et le scroll
     st.markdown("""
     <style>
-        /* Configuration du conteneur principal pour scroll fixe */
+        /* Configuration du conteneur principal */
         section.main > div {
             padding-top: 0 !important;
         }
@@ -682,37 +682,39 @@ elif st.session_state.page == 'scraping':
             overflow: hidden !important;
         }
 
-        /* Colonne gauche - fixe sans scroll */
+        /* Colonne gauche - FIXE sans scroll */
         div[data-testid="stHorizontalBlock"] > div:first-child {
             border-right: 4px solid #0083B8 !important;
             padding-right: 1rem !important;
-            overflow-y: auto !important;
+            overflow-y: hidden !important;
+            overflow-x: hidden !important;
             height: 100% !important;
         }
 
-        /* Colonne droite - scrollable */
+        /* Colonne droite - SCROLLABLE */
         div[data-testid="stHorizontalBlock"] > div:last-child {
             padding-left: 1rem !important;
             overflow-y: auto !important;
+            overflow-x: hidden !important;
             height: 100% !important;
         }
 
-        /* Scrollbar personnalisée pour toutes les colonnes */
-        div[data-testid="stHorizontalBlock"] > div::-webkit-scrollbar {
+        /* Scrollbar personnalisée UNIQUEMENT pour la colonne droite */
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar {
             width: 8px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div::-webkit-scrollbar-track {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-track {
             background: rgba(26, 31, 46, 0.3);
             border-radius: 4px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div::-webkit-scrollbar-thumb {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-thumb {
             background: rgba(0, 131, 184, 0.6);
             border-radius: 4px;
         }
 
-        div[data-testid="stHorizontalBlock"] > div::-webkit-scrollbar-thumb:hover {
+        div[data-testid="stHorizontalBlock"] > div:last-child::-webkit-scrollbar-thumb:hover {
             background: rgba(0, 131, 184, 0.8);
         }
     </style>
