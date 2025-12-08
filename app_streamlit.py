@@ -676,20 +676,24 @@ elif st.session_state.page == 'scraping':
             position: fixed !important;
             left: 0 !important;
             top: 4rem !important;
-            width: 17.5% !important;
+            width: 16% !important;
+            max-width: 280px !important;
             height: calc(100vh - 4rem) !important;
             overflow-y: auto !important;
+            overflow-x: hidden !important;
             border-right: 4px solid #0083B8 !important;
             padding-right: 1rem !important;
-            padding-left: 2rem !important;
+            padding-left: 1.5rem !important;
             z-index: 100 !important;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%) !important;
         }
 
         /* Colonne droite avec marge pour compenser le menu fixe */
         div[data-testid="stHorizontalBlock"] > div:last-child {
-            margin-left: 20% !important;
-            padding-left: 1rem !important;
-            width: 80% !important;
+            margin-left: 18% !important;
+            padding-left: 2rem !important;
+            width: 82% !important;
+            max-width: calc(100% - 18%) !important;
         }
 
         /* Scrollbar personnalisée pour le menu gauche */
