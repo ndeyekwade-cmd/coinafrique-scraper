@@ -258,7 +258,13 @@ def local_css():
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 100vh;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
             padding: 2rem;
         }
 
