@@ -929,26 +929,18 @@ elif st.session_state.page == 'scraping':
             """, unsafe_allow_html=True)
 
             # KPIs - Indicateurs clés
-            col1, col2, col3, col4, col5 = st.columns(5)
+            col1, col2, col3 = st.columns(3)
 
             with col1:
                 st.metric("📊 TOTAL ANNONCES", len(df))
 
             with col2:
-                price_count = df['price'].notna().sum() if 'price' in df.columns else 0
-                st.metric("💰 AVEC PRIX", price_count)
-
-            with col3:
-                address_count = df['address'].notna().sum() if 'address' in df.columns else 0
-                st.metric("📍 AVEC ADRESSE", address_count)
-
-            with col4:
                 image_count = df['image_link'].notna().sum() if 'image_link' in df.columns else 0
                 st.metric("🖼️ AVEC IMAGE", image_count)
 
-            with col5:
+            with col3:
                 completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
-                st.metric("COMPLÉTUDE", f"{completion}%")
+                st.metric("✅ COMPLÉTUDE", f"{completion}%")
 
             st.markdown("<br><br>", unsafe_allow_html=True)
 
