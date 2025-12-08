@@ -929,12 +929,12 @@ elif st.session_state.page == 'scraping':
             with col2:
                 st.markdown("""
                 <div style="
-                    background: linear-gradient(135deg, #F71938 0%, #8B1538 100%);
+                    background: linear-gradient(135deg, #D946A6 0%, #8B1E5C 100%);
                     padding: 2rem;
                     border-radius: 10px;
                     text-align: center;
-                    box-shadow: 0 0 15px rgba(247, 25, 56, 0.4);
-                    border: 1px solid rgba(247, 25, 56, 0.3);
+                    box-shadow: 0 0 15px rgba(217, 70, 166, 0.4);
+                    border: 1px solid rgba(217, 70, 166, 0.3);
                     height: 250px;
                     display: flex;
                     flex-direction: column;
@@ -951,7 +951,7 @@ elif st.session_state.page == 'scraping':
                         <button style="
                             padding: 0.75rem 2rem;
                             background-color: white;
-                            color: #F71938;
+                            color: #D946A6;
                             border: none;
                             border-radius: 5px;
                             cursor: pointer;
