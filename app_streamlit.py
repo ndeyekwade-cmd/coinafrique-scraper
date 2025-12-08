@@ -677,6 +677,81 @@ elif st.session_state.page == 'scraping':
                 border-right: 4px solid #0083B8 !important;
                 min-height: 70vh !important;
             }
+
+            /* Réduire TOUS les espaces dans le menu de gauche */
+
+            /* Expanders compacts */
+            div[data-testid="stExpander"] {
+                margin-bottom: 0.3rem !important;
+                margin-top: 0 !important;
+            }
+
+            /* Contenu des expanders très compact */
+            div[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+                padding: 0.3rem 0.5rem !important;
+            }
+
+            /* TOUS les éléments verticaux dans expanders - gap minimal */
+            div[data-testid="stExpander"] [data-testid="stVerticalBlock"],
+            div[data-testid="stExpander"] [data-testid="stVerticalBlockBorderWrapper"],
+            div[data-testid="stExpander"] .element-container {
+                gap: 0 !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Selectbox - aucun espace */
+            div[data-testid="stExpander"] div[data-testid="stSelectbox"],
+            div[data-testid="stExpander"] div[data-baseweb="select"] {
+                margin: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Labels - aucun espace */
+            div[data-testid="stExpander"] label {
+                margin: 0 !important;
+                padding: 0 !important;
+                padding-bottom: 0.2rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Number input - aucun espace */
+            div[data-testid="stExpander"] div[data-testid="stNumberInput"] {
+                margin: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Text area - aucun espace */
+            div[data-testid="stExpander"] div[data-testid="stTextArea"] {
+                margin: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Boutons - aucun espace au-dessus */
+            div[data-testid="stExpander"] div[data-testid="stButton"],
+            div[data-testid="stExpander"] button {
+                margin-top: 0 !important;
+                margin-bottom: 0.2rem !important;
+                padding: 0.3rem 1rem !important;
+            }
+
+            /* Forcer les éléments à se coller */
+            div[data-testid="stExpander"] .stSelectbox + div,
+            div[data-testid="stExpander"] .stNumberInput + div,
+            div[data-testid="stExpander"] .stTextArea + div {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+
+            /* Supprimer les espaces entre widgets */
+            div[data-testid="column"]:first-child [data-testid="stVerticalBlock"] {
+                gap: 0 !important;
+            }
+
+            div[data-testid="column"]:first-child .element-container {
+                margin-bottom: 0 !important;
+            }
         </style>
         """, unsafe_allow_html=True)
 
@@ -761,6 +836,7 @@ elif st.session_state.page == 'scraping':
                 key="feedback_text",
                 label_visibility="collapsed"
             )
+
             if st.button("ENVOYER", use_container_width=True, key="send_feedback"):
                 if feedback:
                     st.success("Merci!")
