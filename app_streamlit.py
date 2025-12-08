@@ -186,6 +186,20 @@ def local_css():
             border: 1px solid rgba(0,131,184,0.2);
         }
 
+        /* Curseur pointer pour les selectbox */
+        div[data-baseweb="select"],
+        div[data-baseweb="select"] > div,
+        div[data-testid="stSelectbox"] > div,
+        div[data-testid="stSelectbox"] > div > div {
+            cursor: pointer !important;
+        }
+
+        /* Curseur pointer pour les options du menu déroulant */
+        div[role="listbox"],
+        div[role="option"] {
+            cursor: pointer !important;
+        }
+
         /* Titres */
         h1, h2, h3 {
             color: var(--text-light) !important;
