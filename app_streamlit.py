@@ -699,12 +699,7 @@ elif st.session_state.page == 'scraping':
         st.markdown("**AIMS Senegal**")
         st.caption("© 2025 Ndeye Khady Wade")
 
-    st.markdown("""
-    <div class="section-header">
-        <h2>📊 CoinAfrique Analytics Dashboard</h2>
-    </div>
-    """, unsafe_allow_html=True)
-
+    # Zone principale vide au démarrage
     if scraper_btn:
         st.markdown("""
         <div class="alert-info">
