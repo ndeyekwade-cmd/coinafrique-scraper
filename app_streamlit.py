@@ -644,23 +644,28 @@ elif st.session_state.page == 'scraping':
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        # Style pour la bordure et fond du menu
+        # Style pour différencier menu et contenu
         st.markdown("""
         <style>
-            /* Menu à gauche - fond plus sombre */
-            [data-testid="column"]:first-child {
-                background-color: rgba(15, 20, 25, 0.6);
-                border-right: 2px solid rgba(0,131,184,0.3);
-                padding: 1.5rem;
-                padding-right: 1.5rem;
-                border-radius: 8px 0 0 8px;
+            /* Conteneur des colonnes */
+            div[data-testid="column"] {
+                position: relative;
             }
 
-            /* Zone contenu à droite - fond légèrement plus clair */
-            [data-testid="column"]:nth-child(2) {
-                background-color: rgba(26, 31, 46, 0.3);
-                padding: 1.5rem;
-                border-radius: 0 8px 8px 0;
+            /* Menu à gauche - fond très sombre */
+            div[data-testid="stVerticalBlock"] > div:first-child div[data-testid="column"]:first-child {
+                background: linear-gradient(135deg, rgba(10, 15, 20, 0.9) 0%, rgba(20, 25, 35, 0.9) 100%);
+                border-right: 3px solid #0083B8;
+                padding: 2rem 1.5rem;
+                min-height: 80vh;
+            }
+
+            /* Zone contenu à droite - fond clair */
+            div[data-testid="stVerticalBlock"] > div:first-child div[data-testid="column"]:last-child {
+                background: linear-gradient(135deg, rgba(30, 35, 45, 0.4) 0%, rgba(26, 31, 46, 0.4) 100%);
+                padding: 2rem;
+                min-height: 80vh;
+                margin-left: 1rem;
             }
         </style>
         """, unsafe_allow_html=True)
