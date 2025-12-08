@@ -44,18 +44,32 @@ def local_css():
             background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
         }
 
-        /* Sidebar */
+        /* Contenu principal - décaler pour le sidebar */
+        .main .block-container {
+            padding-left: 2rem;
+            padding-right: 2rem;
+            max-width: 100%;
+        }
+
+        /* Sidebar - Forcer la visibilité */
         [data-testid="stSidebar"] {
+            display: block !important;
+            visibility: visible !important;
             background-color: #1a1f2e;
             border-right: 1px solid rgba(0,131,184,0.2);
-            position: fixed;
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 21rem !important;
             height: 100vh;
             overflow-y: auto;
+            z-index: 999999 !important;
         }
 
         /* Bouton pour ouvrir/fermer le sidebar */
         [data-testid="collapsedControl"] {
-            display: block;
+            display: block !important;
+            visibility: visible !important;
         }
 
         [data-testid="stSidebar"] * {
