@@ -48,13 +48,14 @@ def local_css():
         [data-testid="stSidebar"] {
             background-color: #1a1f2e;
             border-right: 1px solid rgba(0,131,184,0.2);
+            position: fixed;
             height: 100vh;
             overflow-y: auto;
         }
 
-        /* ❗ Correction : on enlève le display:none */
+        /* Masquer le bouton de collapse sidebar */
         [data-testid="collapsedControl"] {
-            display: block;
+            display: none;
         }
 
         [data-testid="stSidebar"] * {
