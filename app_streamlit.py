@@ -611,12 +611,33 @@ elif st.session_state.page == 'scraping':
 
     # ========== HEADER ==========
     st.markdown("""
-    <h1 style="color: #0083B8; font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem;">
-        Bienvenue sur votre Dashboard
-    </h1>
-    <p style="color: #e8e8e8; font-size: 1.1rem; text-align: center; margin-bottom: 2rem;">
-        Utilisez le menu à gauche pour commencer
-    </p>
+    <style>
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 1s ease-out, glow 3s ease-in-out infinite;
+        }
+
+        .dashboard-subtitle {
+            color: #e8e8e8;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1.2s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            animation-delay: 0.3s;
+        }
+    </style>
+
+    <h1 class="dashboard-title">Bienvenue sur votre Dashboard</h1>
+    <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
     """, unsafe_allow_html=True)
 
     # Créer 2 colonnes: menu à gauche (limité), contenu à droite (large)
