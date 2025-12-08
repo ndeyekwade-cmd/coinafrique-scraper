@@ -159,16 +159,23 @@ def local_css():
         }
 
         .stTabs [data-baseweb="tab"] {
-            background-color: #f0f0f0;
+            background-color: rgba(26, 31, 46, 0.9) !important;
+            border: 1px solid rgba(0,131,184,0.3) !important;
             border-radius: 8px 8px 0 0;
             padding: 10px 20px;
-            color: var(--text-dark);
+            color: var(--text-light) !important;
             font-weight: 600;
         }
 
+        .stTabs [data-baseweb="tab"]:hover {
+            background-color: rgba(26, 31, 46, 1) !important;
+            border-color: rgba(0,131,184,0.5) !important;
+        }
+
         .stTabs [aria-selected="true"] {
-            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%);
-            color: white;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%) !important;
+            color: white !important;
+            border-color: transparent !important;
         }
 
         /* DataFrame */
