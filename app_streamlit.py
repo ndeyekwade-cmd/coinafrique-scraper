@@ -972,31 +972,31 @@ elif st.session_state.page == 'scraping':
 
             # Scraping management
             if scraper_btn:
-            st.markdown("""
-            <div class="alert-info">
-                <strong>🔍 Scraping in progress...</strong><br>
-                Please wait while collecting data.
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown("""
+                <div class="alert-info">
+                    <strong>🔍 Scraping in progress...</strong><br>
+                    Please wait while collecting data.
+                </div>
+                """, unsafe_allow_html=True)
 
-            config = categories[categorie_selectionnee]
-            df = scraper_categorie(
-                categorie_selectionnee,
-                config['url'],
-                nb_pages,
-                config['selector']
-            )
+                config = categories[categorie_selectionnee]
+                df = scraper_categorie(
+                    categorie_selectionnee,
+                    config['url'],
+                    nb_pages,
+                    config['selector']
+                )
 
-            st.session_state['df'] = df
-            st.session_state['categorie'] = categorie_selectionnee
-            st.session_state['show_feedback'] = False
+                st.session_state['df'] = df
+                st.session_state['categorie'] = categorie_selectionnee
+                st.session_state['show_feedback'] = False
 
-            st.markdown(f"""
-            <div class="alert-success">
-                <strong>✅ Scraping completed successfully!</strong><br>
-                {len(df)} ads collected and cleaned
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="alert-success">
+                    <strong>✅ Scraping completed successfully!</strong><br>
+                    {len(df)} ads collected and cleaned
+                </div>
+                """, unsafe_allow_html=True)
 
         # Display results when data is available (but not if feedback is displayed)
         if 'df' in st.session_state and not st.session_state.get('show_feedback', False):
