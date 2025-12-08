@@ -730,177 +730,174 @@ elif st.session_state.page == 'scraping':
         if 'df' not in st.session_state:
             st.markdown("<br><br>", unsafe_allow_html=True)
 
+            st.markdown("""
+            <h1 style="color: #0083B8; font-size: 3rem; text-align: center; margin-bottom: 1rem;">
+                Bienvenue sur votre Dashboard
+            </h1>
+            <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 1rem;">
+                Utilisez le menu à gauche pour commencer
+            </p>
+            """, unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Utiliser des colonnes Streamlit pour les cartes
+            col_welcome1, col_welcome2, col_welcome3 = st.columns([1, 2, 1])
+
+            with col_welcome2:
+                col_card1, col_card2 = st.columns(2)
+
+                with col_card1:
                     st.markdown("""
-                    <h1 style="color: #0083B8; font-size: 3rem; text-align: center; margin-bottom: 1rem;">
-                        Bienvenue sur votre Dashboard
-                    </h1>
-                    <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 1rem;">
-                        Utilisez le menu à gauche pour commencer
-                    </p>
-                    <p style="color: #F71938; font-size: 1rem; text-align: center; margin-bottom: 3rem;">
-                        ← Si le menu n'est pas visible, cliquez sur la flèche en haut à gauche
-                    </p>
+                    <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(0,131,184,0.3);
+                                border-radius: 12px; padding: 2rem; height: 200px;">
+                        <h3 style="color: #0083B8; margin-top: 0;">📂 Option 1</h3>
+                        <p style="color: #e8e8e8; line-height: 1.6;">
+                            <strong>Charger des données existantes</strong><br><br>
+                            Accédez instantanément à 3479 annonces déjà collectées
+                        </p>
+                    </div>
                     """, unsafe_allow_html=True)
 
-                    st.markdown("<br>", unsafe_allow_html=True)
+                with col_card2:
+                    st.markdown("""
+                    <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(247,25,56,0.3);
+                                border-radius: 12px; padding: 2rem; height: 200px;">
+                        <h3 style="color: #F71938; margin-top: 0;">🔍 Option 2</h3>
+                        <p style="color: #e8e8e8; line-height: 1.6;">
+                            <strong>Scraper de nouvelles données</strong><br><br>
+                            Collectez des données fraîches en temps réel
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-                    # Utiliser des colonnes Streamlit pour les cartes
-                    col1, col2, col3 = st.columns([1, 2, 1])
+        # Gestion du scraping
+        if scraper_btn:
+            st.markdown("""
+            <div class="alert-info">
+                <strong>🔍 Scraping en cours...</strong><br>
+                Veuillez patienter pendant la collecte des données.
+            </div>
+            """, unsafe_allow_html=True)
 
-                    with col2:
-                        col_card1, col_card2 = st.columns(2)
+            config = categories[categorie_selectionnee]
+            df = scraper_categorie(
+                categorie_selectionnee,
+                config['url'],
+                nb_pages,
+                config['selector']
+            )
 
-                        with col_card1:
-                            st.markdown("""
-                            <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(0,131,184,0.3);
-                                        border-radius: 12px; padding: 2rem; height: 200px;">
-                                <h3 style="color: #0083B8; margin-top: 0;">📂 Option 1</h3>
-                                <p style="color: #e8e8e8; line-height: 1.6;">
-                                    <strong>Charger des données existantes</strong><br><br>
-                                    Accédez instantanément à 3479 annonces déjà collectées
-                                </p>
-                            </div>
-                            """, unsafe_allow_html=True)
+            st.session_state['df'] = df
+            st.session_state['categorie'] = categorie_selectionnee
 
-                        with col_card2:
-                            st.markdown("""
-                            <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(247,25,56,0.3);
-                                        border-radius: 12px; padding: 2rem; height: 200px;">
-                                <h3 style="color: #F71938; margin-top: 0;">🔍 Option 2</h3>
-                                <p style="color: #e8e8e8; line-height: 1.6;">
-                                    <strong>Scraper de nouvelles données</strong><br><br>
-                                    Collectez des données fraîches en temps réel
-                                </p>
-                            </div>
-                            """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="alert-success">
+                <strong>✅ Scraping terminé avec succès!</strong><br>
+                {len(df)} annonces collectées et nettoyées
+            </div>
+            """, unsafe_allow_html=True)
 
-    # Gestion du scraping
-            if scraper_btn:
-                st.markdown("""
-                <div class="alert-info">
-                    <strong>🔍 Scraping en cours...</strong><br>
-                    Veuillez patienter pendant la collecte des données.
-                </div>
-                """, unsafe_allow_html=True)
+        # Affichage des résultats quand des données sont disponibles
+        if 'df' in st.session_state:
+            df = st.session_state['df']
+            categorie = st.session_state['categorie']
 
-                config = categories[categorie_selectionnee]
-                df = scraper_categorie(
-                    categorie_selectionnee,
-                    config['url'],
-                    nb_pages,
-                    config['selector']
-                )
+            # Header avec le nom de la catégorie
+            st.markdown(f"""
+            <div class="section-header">
+                <h2>📊 Analyse : {categorie}</h2>
+            </div>
+            """, unsafe_allow_html=True)
 
-                st.session_state['df'] = df
-                st.session_state['categorie'] = categorie_selectionnee
+            # KPIs - Indicateurs clés
+            col1, col2, col3, col4, col5 = st.columns(5)
 
-                st.markdown(f"""
-                <div class="alert-success">
-                    <strong>✅ Scraping terminé avec succès!</strong><br>
-                    {len(df)} annonces collectées et nettoyées
-                </div>
-                """, unsafe_allow_html=True)
+            with col1:
+                st.metric("📊 TOTAL ANNONCES", len(df))
 
-            # Affichage des résultats quand des données sont disponibles
-            if 'df' in st.session_state:
-                df = st.session_state['df']
-                categorie = st.session_state['categorie']
+            with col2:
+                st.metric("💰 AVEC PRIX", df['price'].notna().sum())
 
-                # Header avec le nom de la catégorie
-                st.markdown(f"""
-                <div class="section-header">
-                    <h2>📊 Analyse : {categorie}</h2>
-                </div>
-                """, unsafe_allow_html=True)
+            with col3:
+                st.metric("📍 AVEC ADRESSE", df['address'].notna().sum())
 
-                # KPIs - Indicateurs clés
-                col1, col2, col3, col4, col5 = st.columns(5)
+            with col4:
+                st.metric("🖼️ AVEC IMAGE", df['image_link'].notna().sum())
+
+            with col5:
+                completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
+                st.metric("COMPLÉTUDE", f"{completion}%")
+
+            st.markdown("<br><br>", unsafe_allow_html=True)
+
+            # Tabs pour organiser le contenu
+            tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Tableau de données", "💾 Export"])
+
+            with tab1:
+                st.markdown("### Analyse Graphique")
+                fig = visualiser_donnees(df, categorie)
+                st.pyplot(fig)
+
+                # Informations supplémentaires
+                st.markdown("---")
+                col_info1, col_info2 = st.columns(2)
+                with col_info1:
+                    if 'price' in df.columns:
+                        df_temp = df.copy()
+                        df_temp['price_num'] = df_temp['price'].str.extract(r'(\d+)').astype(float)
+                        prices_valid = df_temp['price_num'].dropna()
+                        if len(prices_valid) > 0:
+                            st.metric("Prix moyen", f"{prices_valid.mean():,.0f} CFA")
+                with col_info2:
+                    if 'address' in df.columns:
+                        nb_villes = df['address'].nunique()
+                        st.metric("Nombre de villes", nb_villes)
+
+            with tab2:
+                st.markdown("### Données brutes")
+
+                # Options de filtrage
+                col_filter1, col_filter2 = st.columns(2)
+                with col_filter1:
+                    if st.checkbox("Afficher uniquement avec prix"):
+                        df_display = df[df['price'].notna()]
+                    else:
+                        df_display = df
+                with col_filter2:
+                    if st.checkbox("Afficher uniquement avec adresse"):
+                        df_display = df_display[df_display['address'].notna()]
+
+                st.dataframe(df_display, use_container_width=True, height=450)
+                st.caption(f"Affichage de {len(df_display)} sur {len(df)} annonces")
+
+            with tab3:
+                st.markdown("### Téléchargement des données")
+
+                st.info("💡 Exportez vos données pour des analyses plus approfondies dans Excel, Google Sheets, ou tout autre outil d'analyse.")
+
+                col1, col2 = st.columns(2)
 
                 with col1:
-                    st.metric("📊 TOTAL ANNONCES", len(df))
+                    csv = df.to_csv(index=False, encoding='utf-8-sig')
+                    st.download_button(
+                        label="📥 Télécharger CSV",
+                        data=csv,
+                        file_name=f"{categorie.replace(' ', '_')}_data.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
 
                 with col2:
-                    st.metric("💰 AVEC PRIX", df['price'].notna().sum())
+                    excel_buffer = pd.ExcelWriter('temp.xlsx', engine='openpyxl')
+                    df.to_excel(excel_buffer, index=False)
+                    excel_buffer.close()
 
-                with col3:
-                    st.metric("📍 AVEC ADRESSE", df['address'].notna().sum())
-
-                with col4:
-                    st.metric("🖼️ AVEC IMAGE", df['image_link'].notna().sum())
-
-                with col5:
-                    completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
-                    st.metric("COMPLÉTUDE", f"{completion}%")
-
-                st.markdown("<br><br>", unsafe_allow_html=True)
-
-                # Tabs pour organiser le contenu
-                tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Tableau de données", "💾 Export"])
-
-                with tab1:
-                    st.markdown("### Analyse Graphique")
-                    fig = visualiser_donnees(df, categorie)
-                    st.pyplot(fig)
-
-                    # Informations supplémentaires
-                    st.markdown("---")
-                    col_info1, col_info2 = st.columns(2)
-                    with col_info1:
-                        if 'price' in df.columns:
-                            df_temp = df.copy()
-                            df_temp['price_num'] = df_temp['price'].str.extract(r'(\d+)').astype(float)
-                            prices_valid = df_temp['price_num'].dropna()
-                            if len(prices_valid) > 0:
-                                st.metric("Prix moyen", f"{prices_valid.mean():,.0f} CFA")
-                    with col_info2:
-                        if 'address' in df.columns:
-                            nb_villes = df['address'].nunique()
-                            st.metric("Nombre de villes", nb_villes)
-
-                with tab2:
-                    st.markdown("### Données brutes")
-
-                    # Options de filtrage
-                    col_filter1, col_filter2 = st.columns(2)
-                    with col_filter1:
-                        if st.checkbox("Afficher uniquement avec prix"):
-                            df_display = df[df['price'].notna()]
-                        else:
-                            df_display = df
-                    with col_filter2:
-                        if st.checkbox("Afficher uniquement avec adresse"):
-                            df_display = df_display[df_display['address'].notna()]
-
-                    st.dataframe(df_display, use_container_width=True, height=450)
-                    st.caption(f"Affichage de {len(df_display)} sur {len(df)} annonces")
-
-                with tab3:
-                    st.markdown("### Téléchargement des données")
-
-                    st.info("💡 Exportez vos données pour des analyses plus approfondies dans Excel, Google Sheets, ou tout autre outil d'analyse.")
-
-                    col1, col2 = st.columns(2)
-
-                    with col1:
-                        csv = df.to_csv(index=False, encoding='utf-8-sig')
+                    with open('temp.xlsx', 'rb') as f:
                         st.download_button(
-                            label="📥 Télécharger CSV",
-                            data=csv,
-                            file_name=f"{categorie.replace(' ', '_')}_data.csv",
-                            mime="text/csv",
-                            use_container_width=True
-                        )
-
-                    with col2:
-                        excel_buffer = pd.ExcelWriter('temp.xlsx', engine='openpyxl')
-                        df.to_excel(excel_buffer, index=False)
-                        excel_buffer.close()
-
-                        with open('temp.xlsx', 'rb') as f:
-                            st.download_button(
-                                label="📥 Télécharger Excel",
-                                data=f,
-                        file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
+                            label="📥 Télécharger Excel",
+                            data=f,
+                            file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         use_container_width=True
                     )
