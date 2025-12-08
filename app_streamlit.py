@@ -644,13 +644,18 @@ elif st.session_state.page == 'scraping':
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        # Wrapper avec fond sombre pour le menu
+        # Style global pour la colonne menu
         st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(10, 15, 20, 0.95) 0%, rgba(20, 25, 35, 0.95) 100%);
-                    padding: 1.5rem;
-                    border-radius: 8px;
-                    border-right: 4px solid #0083B8;
-                    min-height: 70vh;">
+        <style>
+            /* Cibler spécifiquement la première colonne du dashboard */
+            section[data-testid="stVerticalBlock"] > div:has(button[key="load_data_btn"]) {
+                background: linear-gradient(135deg, rgba(10, 15, 20, 0.95) 0%, rgba(20, 25, 35, 0.95) 100%) !important;
+                padding: 1.5rem !important;
+                border-radius: 8px !important;
+                border-right: 4px solid #0083B8 !important;
+                min-height: 70vh !important;
+            }
+        </style>
         """, unsafe_allow_html=True)
 
         # Données pré-collectées
@@ -740,17 +745,19 @@ elif st.session_state.page == 'scraping':
                 else:
                     st.warning("Écrivez un commentaire.")
 
-        # Fermer le wrapper du menu
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
     with col_content:
-        # Wrapper avec fond clair pour le contenu
+        # Style global pour la colonne contenu
         st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(35, 40, 50, 0.5) 0%, rgba(30, 35, 45, 0.5) 100%);
-                    padding: 1.5rem;
-                    border-radius: 8px;
-                    min-height: 70vh;">
+        <style>
+            /* Cibler la zone de contenu */
+            div[data-testid="stVerticalBlock"] div[data-testid="column"]:last-child > div {
+                background: linear-gradient(135deg, rgba(35, 40, 50, 0.5) 0%, rgba(30, 35, 45, 0.5) 100%) !important;
+                padding: 1.5rem !important;
+                border-radius: 8px !important;
+                min-height: 70vh !important;
+            }
+        </style>
         """, unsafe_allow_html=True)
         # Zone vide au démarrage - les données s'afficheront après chargement/scraping
         if 'df' not in st.session_state:
@@ -887,5 +894,3 @@ elif st.session_state.page == 'scraping':
                         use_container_width=True
                     )
 
-        # Fermer le wrapper du contenu
-        st.markdown("</div>", unsafe_allow_html=True)
