@@ -283,6 +283,7 @@ def local_css():
         .welcome-subtitle {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+            text-align: center;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
