@@ -620,6 +620,15 @@ elif st.session_state.page == 'scraping':
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
+        # Style pour la bordure droite du menu
+        st.markdown("""
+        <style>
+            [data-testid="column"]:first-child {
+                border-right: 2px solid rgba(0,131,184,0.3);
+                padding-right: 1.5rem;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
         # Données pré-collectées
         with st.expander("📂 Données", expanded=True):
