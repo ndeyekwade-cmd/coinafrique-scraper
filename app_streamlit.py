@@ -640,6 +640,21 @@ elif st.session_state.page == 'scraping':
     <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
     """, unsafe_allow_html=True)
 
+    # Style pour la séparation verticale
+    st.markdown("""
+    <style>
+        /* Barre de séparation verticale entre les colonnes */
+        div[data-testid="stHorizontalBlock"] > div:first-child {
+            border-right: 4px solid #0083B8 !important;
+            padding-right: 1rem !important;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div:last-child {
+            padding-left: 1rem !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     # Créer 2 colonnes: menu à gauche (limité), contenu à droite (large)
     col_menu, col_content = st.columns([0.7, 3.3])
 
