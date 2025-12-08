@@ -609,11 +609,14 @@ elif st.session_state.page == 'instructions':
 # ==================== PAGE SCRAPING ====================
 elif st.session_state.page == 'scraping':
 
-    # ========== MENU PRINCIPAL (au lieu du sidebar) ==========
+    # ========== HEADER ==========
     st.markdown("""
-    <div class="section-header">
-        <h2>📊 Dashboard CoinAfrique</h2>
-    </div>
+    <h1 style="color: #0083B8; font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem;">
+        Bienvenue sur votre Dashboard
+    </h1>
+    <p style="color: #e8e8e8; font-size: 1.1rem; text-align: center; margin-bottom: 2rem;">
+        Utilisez le menu à gauche pour commencer
+    </p>
     """, unsafe_allow_html=True)
 
     # Créer 2 colonnes: menu à gauche (limité), contenu à droite (large)
@@ -719,50 +722,9 @@ elif st.session_state.page == 'scraping':
 
     # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
     with col_content:
-        # Si aucune donnée n'est chargée, afficher la page d'accueil du dashboard
+        # Zone vide au démarrage - les données s'afficheront après chargement/scraping
         if 'df' not in st.session_state:
-            st.markdown("<br><br>", unsafe_allow_html=True)
-
-            st.markdown("""
-            <h1 style="color: #0083B8; font-size: 3rem; text-align: center; margin-bottom: 1rem;">
-                Bienvenue sur votre Dashboard
-            </h1>
-            <p style="color: #e8e8e8; font-size: 1.3rem; text-align: center; margin-bottom: 1rem;">
-                Utilisez le menu à gauche pour commencer
-            </p>
-            """, unsafe_allow_html=True)
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            # Utiliser des colonnes Streamlit pour les cartes
-            col_welcome1, col_welcome2, col_welcome3 = st.columns([1, 2, 1])
-
-            with col_welcome2:
-                col_card1, col_card2 = st.columns(2)
-
-                with col_card1:
-                    st.markdown("""
-                    <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(0,131,184,0.3);
-                                border-radius: 12px; padding: 2rem; height: 200px;">
-                        <h3 style="color: #0083B8; margin-top: 0;">📂 Option 1</h3>
-                        <p style="color: #e8e8e8; line-height: 1.6;">
-                            <strong>Charger des données existantes</strong><br><br>
-                            Accédez instantanément à 3479 annonces déjà collectées
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
-
-                with col_card2:
-                    st.markdown("""
-                    <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(247,25,56,0.3);
-                                border-radius: 12px; padding: 2rem; height: 200px;">
-                        <h3 style="color: #F71938; margin-top: 0;">🔍 Option 2</h3>
-                        <p style="color: #e8e8e8; line-height: 1.6;">
-                            <strong>Scraper de nouvelles données</strong><br><br>
-                            Collectez des données fraîches en temps réel
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
+            pass  # Rien à afficher, juste le header en haut
 
         # Gestion du scraping
         if scraper_btn:
