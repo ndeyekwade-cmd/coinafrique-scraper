@@ -644,12 +644,23 @@ elif st.session_state.page == 'scraping':
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        # Style pour la bordure droite du menu
+        # Style pour la bordure et fond du menu
         st.markdown("""
         <style>
+            /* Menu à gauche - fond plus sombre */
             [data-testid="column"]:first-child {
+                background-color: rgba(15, 20, 25, 0.6);
                 border-right: 2px solid rgba(0,131,184,0.3);
+                padding: 1.5rem;
                 padding-right: 1.5rem;
+                border-radius: 8px 0 0 8px;
+            }
+
+            /* Zone contenu à droite - fond légèrement plus clair */
+            [data-testid="column"]:nth-child(2) {
+                background-color: rgba(26, 31, 46, 0.3);
+                padding: 1.5rem;
+                border-radius: 0 8px 8px 0;
             }
         </style>
         """, unsafe_allow_html=True)
