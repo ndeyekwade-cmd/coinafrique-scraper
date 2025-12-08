@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup as bs
 import matplotlib.pyplot as plt
 import time
 
-# Configuration de la page
+# Page configuration
 st.set_page_config(
     page_title="CoinAfrique Dashboard",
     page_icon="📊",
@@ -13,15 +13,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Initialiser session state
+# Initialize session state
 if 'page' not in st.session_state:
     st.session_state.page = 'welcome'
 
-# Charger le CSS personnalisé
+# Load custom CSS
 def local_css():
     st.markdown("""
     <style>
-        /* Variables de couleurs */
+        /* Color variables */
         :root {
             --primary-blue: #0083B8;
             --accent-red: #F71938;
@@ -34,24 +34,24 @@ def local_css():
             --white: #FFFFFF;
         }
 
-        /* Masquer les éléments par défaut */
+        /* Hide default elements */
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
 
-        /* Background bleu nuit */
+        /* Night blue background */
         .stApp {
             background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
         }
 
-        /* Contenu principal - décaler pour le sidebar */
+        /* Main content - offset for sidebar */
         .main .block-container {
             padding-left: 2rem;
             padding-right: 2rem;
             max-width: 100%;
         }
 
-        /* Sidebar - Forcer la visibilité */
+        /* Sidebar - Force visibility */
         [data-testid="stSidebar"] {
             display: block !important;
             visibility: visible !important;
@@ -66,7 +66,7 @@ def local_css():
             z-index: 999999 !important;
         }
 
-        /* Bouton pour ouvrir/fermer le sidebar */
+        /* Button to open/close sidebar */
         [data-testid="collapsedControl"] {
             display: block !important;
             visibility: visible !important;
@@ -85,7 +85,7 @@ def local_css():
             padding-top: 2rem;
         }
 
-        /* Metric containers avec ombres colorées */
+        /* Metric containers with colored shadows */
         [data-testid=metric-container] {
             background: rgba(26, 31, 46, 0.8);
             border: 1px solid rgba(0,131,184,0.3);
@@ -124,7 +124,7 @@ def local_css():
             border: 1px solid rgba(0,131,184,0.2);
         }
 
-        /* Boutons */
+        /* Buttons */
         .stButton>button {
             background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%);
             color: white;
@@ -186,7 +186,7 @@ def local_css():
             border: 1px solid rgba(0,131,184,0.2);
         }
 
-        /* Curseur pointer pour les selectbox */
+        /* Pointer cursor for selectbox */
         div[data-baseweb="select"],
         div[data-baseweb="select"] > div,
         div[data-testid="stSelectbox"] > div,
@@ -194,13 +194,13 @@ def local_css():
             cursor: pointer !important;
         }
 
-        /* Curseur pointer pour les options du menu déroulant */
+        /* Pointer cursor for dropdown menu options */
         div[role="listbox"],
         div[role="option"] {
             cursor: pointer !important;
         }
 
-        /* Titres */
+        /* Titles */
         h1, h2, h3 {
             color: var(--text-light) !important;
             font-weight: 700;
@@ -270,7 +270,7 @@ def local_css():
             color: var(--text-light);
         }
 
-        /* Animations Accueil */
+        /* Welcome animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
@@ -383,7 +383,7 @@ def local_css():
 
 local_css()
 
-# Fonction de scraping
+# Scraping function
 @st.cache_data
 def scraper_categorie(categorie_name, url, max_pages, selector_name):
     options = webdriver.ChromeOptions()
@@ -453,10 +453,10 @@ def scraper_categorie(categorie_name, url, max_pages, selector_name):
 
     return df
 
-# Fonction de visualisation
+# Visualization function
 def visualiser_donnees(df, categorie_name):
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-    fig.suptitle(f'ANALYSE DES DONNÉES - {categorie_name}', fontsize=16, fontweight='bold', color='#e8e8e8')
+    fig.suptitle(f'DATA ANALYSIS - {categorie_name}', fontsize=16, fontweight='bold', color='#e8e8e8')
     fig.patch.set_facecolor('#1a1f2e')
 
     if 'address' in df.columns and df['address'].notna().sum() > 0:
@@ -464,8 +464,8 @@ def visualiser_donnees(df, categorie_name):
         axes[0].barh(range(len(top_addresses)), top_addresses.values, color='#0083B8')
         axes[0].set_yticks(range(len(top_addresses)))
         axes[0].set_yticklabels(top_addresses.index, fontsize=9, color='#e8e8e8')
-        axes[0].set_xlabel('Nombre d\'annonces', fontweight='bold', color='#e8e8e8')
-        axes[0].set_title('Top 10 des adresses', fontweight='bold', color='#e8e8e8')
+        axes[0].set_xlabel('Number of ads', fontweight='bold', color='#e8e8e8')
+        axes[0].set_title('Top 10 addresses', fontweight='bold', color='#e8e8e8')
         axes[0].invert_yaxis()
         axes[0].grid(axis='x', alpha=0.3, color='#cecdcd')
         axes[0].set_facecolor('#1a1f2e')
@@ -478,17 +478,17 @@ def visualiser_donnees(df, categorie_name):
 
         if len(prices_valid) > 0:
             axes[1].hist(prices_valid, bins=20, color='#F71938', edgecolor='black', alpha=0.7)
-            axes[1].set_xlabel('Prix (CFA)', fontweight='bold', color='#e8e8e8')
-            axes[1].set_ylabel('Fréquence', fontweight='bold', color='#e8e8e8')
-            axes[1].set_title('Distribution des prix', fontweight='bold', color='#e8e8e8')
+            axes[1].set_xlabel('Price (CFA)', fontweight='bold', color='#e8e8e8')
+            axes[1].set_ylabel('Frequency', fontweight='bold', color='#e8e8e8')
+            axes[1].set_title('Price distribution', fontweight='bold', color='#e8e8e8')
             axes[1].grid(axis='y', alpha=0.3, color='#cecdcd')
             axes[1].set_facecolor('#1a1f2e')
             axes[1].tick_params(colors='#e8e8e8')
 
             mean_price = prices_valid.mean()
             median_price = prices_valid.median()
-            axes[1].axvline(mean_price, color='#0083B8', linestyle='--', linewidth=2, label=f'Moyenne: {mean_price:,.0f} CFA')
-            axes[1].axvline(median_price, color='orange', linestyle='--', linewidth=2, label=f'Médiane: {median_price:,.0f} CFA')
+            axes[1].axvline(mean_price, color='#0083B8', linestyle='--', linewidth=2, label=f'Mean: {mean_price:,.0f} CFA')
+            axes[1].axvline(median_price, color='orange', linestyle='--', linewidth=2, label=f'Median: {median_price:,.0f} CFA')
             legend = axes[1].legend()
             for text in legend.get_texts():
                 text.set_color('#e8e8e8')
@@ -502,13 +502,13 @@ if st.session_state.page == 'welcome':
 
     st.markdown("""
         <h1 class="welcome-title">📊 CoinAfrique Analytics</h1>
-        <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
+        <p class="welcome-subtitle">Data analysis and collection platform</p>
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        if st.button("→ VISITER", key="welcome_btn"):
+        if st.button("→ VISIT", key="welcome_btn"):
             st.session_state.page = 'instructions'
             st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
@@ -519,7 +519,7 @@ if st.session_state.page == 'welcome':
 elif st.session_state.page == 'instructions':
     st.markdown("""
     <div class="section-header">
-        <h2>Guide d'utilisation</h2>
+        <h2>User Guide</h2>
     </div>
     """, unsafe_allow_html=True)
 
@@ -528,93 +528,93 @@ elif st.session_state.page == 'instructions':
     # Introduction
     st.markdown("""
         <div class="instruction-card">
-            <h3 style="color: #0083B8; margin-top: 0;">Bienvenue sur CoinAfrique Analytics</h3>
+            <h3 style="color: #0083B8; margin-top: 0;">Welcome to CoinAfrique Analytics</h3>
             <p style="margin-top: 0.5rem; line-height: 1.6;">
-                Cette plateforme vous permet de collecter et analyser automatiquement les données
-                des annonces d'animaux publiées sur CoinAfrique Sénégal. L'outil extrait les informations
-                clés (nom, prix, localisation, images) et génère des visualisations pour faciliter votre analyse.
+                This platform allows you to automatically collect and analyze data
+                from animal ads posted on CoinAfrique Senegal. The tool extracts key information
+                (name, price, location, images) and generates visualizations to facilitate your analysis.
             </p>
             <p style="margin-top: 1rem; line-height: 1.6;">
-                <strong style="color: #F71938;">Deux options s'offrent à vous :</strong><br>
-                <span style="color: #0083B8;">•</span> Charger des données déjà collectées (3479 annonces disponibles)<br>
-                <span style="color: #0083B8;">•</span> Scraper de nouvelles données en temps réel
+                <strong style="color: #F71938;">Two options are available:</strong><br>
+                <span style="color: #0083B8;">•</span> Load pre-collected data (3479 ads available)<br>
+                <span style="color: #0083B8;">•</span> Scrape new data in real-time
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Option 1 - Données pré-collectées
+    # Option 1 - Pre-collected data
     st.markdown("""
         <div class="instruction-card">
-            <h3 style="color: #0083B8; margin-top: 0;">Option 1 : Charger des données pré-collectées</h3>
+            <h3 style="color: #0083B8; margin-top: 0;">Option 1: Load pre-collected data</h3>
             <p style="margin-top: 0.5rem; line-height: 1.6;">
-                <strong>Accès immédiat à 3479 annonces déjà collectées</strong>
+                <strong>Immediate access to 3479 already collected ads</strong>
             </p>
             <ul style="margin-left: 20px; line-height: 1.8;">
-                <li><strong>Chiens :</strong> 860 annonces</li>
-                <li><strong>Moutons :</strong> 1324 annonces</li>
-                <li><strong>Lapins/Poules/Pigeons :</strong> 804 annonces</li>
-                <li><strong>Autres Animaux :</strong> 491 annonces</li>
+                <li><strong>Dogs:</strong> 860 ads</li>
+                <li><strong>Sheep:</strong> 1324 ads</li>
+                <li><strong>Rabbits/Chickens/Pigeons:</strong> 804 ads</li>
+                <li><strong>Other Animals:</strong> 491 ads</li>
             </ul>
             <p style="margin-top: 1rem; line-height: 1.6;">
-                Dans le menu latéral, section "Données pré-collectées", sélectionnez la catégorie
-                souhaitée et cliquez sur "CHARGER LES DONNÉES". Les visualisations s'afficheront
-                instantanément sans attendre.
+                In the sidebar, "Data" section, select the desired category
+                and click "LOAD". The visualizations will appear
+                instantly without waiting.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Option 2 - Scraper de nouvelles données
+    # Option 2 - Scrape new data
     st.markdown("""
         <div class="instruction-card">
-            <h3 style="color: #0083B8; margin-top: 0;">Option 2 : Scraper de nouvelles données</h3>
+            <h3 style="color: #0083B8; margin-top: 0;">Option 2: Scrape new data</h3>
             <p style="margin-top: 0.5rem; line-height: 1.6;">
-                <strong>Collectez des données fraîches en temps réel</strong>
+                <strong>Collect fresh data in real-time</strong>
             </p>
             <p style="margin-top: 1rem; line-height: 1.6;">
                 <span class="instruction-number">1</span>
-                <strong>Choisir une catégorie :</strong> Sélectionnez parmi Chiens, Moutons,
-                Poules/Lapins/Pigeons, ou Autres Animaux dans le menu "Scraper de nouvelles données".
+                <strong>Choose a category:</strong> Select from Dogs, Sheep,
+                Chickens/Rabbits/Pigeons, or Other Animals in the "Scraper" menu.
             </p>
             <p style="margin-top: 1rem; line-height: 1.6;">
                 <span class="instruction-number">2</span>
-                <strong>Définir le volume :</strong> Indiquez le nombre de pages (1-50).
-                Environ 20 annonces par page. 5 pages = ~100 annonces, 20 pages = ~400 annonces.
+                <strong>Define volume:</strong> Specify the number of pages (1-50).
+                Approximately 20 ads per page. 5 pages = ~100 ads, 20 pages = ~400 ads.
             </p>
             <p style="margin-top: 1rem; line-height: 1.6;">
                 <span class="instruction-number">3</span>
-                <strong>Lancer le scraping :</strong> Cliquez sur "LANCER". Une barre de progression
-                suivra l'avancement. Durée : quelques minutes selon le volume.
+                <strong>Start scraping:</strong> Click "START". A progress bar
+                will track the progress. Duration: a few minutes depending on volume.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Analyse et export
+    # Analysis and export
     st.markdown("""
         <div class="instruction-card">
-            <h3 style="color: #0083B8; margin-top: 0;">Analyser et exporter vos données</h3>
+            <h3 style="color: #0083B8; margin-top: 0;">Analyze and export your data</h3>
             <p style="margin-top: 0.5rem; line-height: 1.6;">
-                Une fois les données chargées ou scrapées, vous accédez à :
+                Once the data is loaded or scraped, you have access to:
             </p>
             <ul style="margin-left: 20px; line-height: 1.8;">
-                <li><strong>Indicateurs clés :</strong> Total annonces, prix, adresses, images, complétude</li>
-                <li><strong>Visualisations :</strong> Top 10 des adresses, distribution des prix avec moyenne/médiane</li>
-                <li><strong>Tableau de données :</strong> Consultation détaillée de toutes les annonces</li>
-                <li><strong>Export :</strong> Téléchargement au format CSV ou Excel</li>
+                <li><strong>Key metrics:</strong> Total ads, prices, addresses, images, completeness</li>
+                <li><strong>Visualizations:</strong> Top 10 addresses, price distribution with mean/median</li>
+                <li><strong>Data table:</strong> Detailed view of all ads</li>
+                <li><strong>Export:</strong> Download in CSV or Excel format</li>
             </ul>
         </div>
     """, unsafe_allow_html=True)
 
-    # Conseils d'utilisation
+    # Usage tips
     st.markdown("""
         <div class="instruction-card">
-            <h3 style="color: #F71938; margin-top: 0;">Conseils d'utilisation</h3>
+            <h3 style="color: #F71938; margin-top: 0;">Usage Tips</h3>
             <ul style="margin-left: 20px; line-height: 1.8;">
-                <li>Commencez avec les données pré-collectées pour une découverte rapide</li>
-                <li>Pour du scraping, débutez avec 5-10 pages pour tester</li>
-                <li>Les données scrapées sont mises en cache pour éviter les collectes répétées</li>
-                <li>Utilisez le menu latéral pour basculer entre chargement et scraping</li>
-                <li>Les graphiques peuvent être sauvegardés via clic droit</li>
-                <li>Vérifiez l'indicateur de complétude avant l'export</li>
+                <li>Start with pre-collected data for quick discovery</li>
+                <li>For scraping, start with 5-10 pages to test</li>
+                <li>Scraped data is cached to avoid repeated collections</li>
+                <li>Use the sidebar to switch between loading and scraping</li>
+                <li>Charts can be saved via right-click</li>
+                <li>Check the completeness indicator before exporting</li>
             </ul>
         </div>
     """, unsafe_allow_html=True)
@@ -624,7 +624,7 @@ elif st.session_state.page == 'instructions':
     st.markdown('<br><br>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        if st.button("COMMENCER", key="start_scraping_btn"):
+        if st.button("START", key="start_scraping_btn"):
             st.session_state.page = 'scraping'
             st.rerun()
 
@@ -659,20 +659,20 @@ elif st.session_state.page == 'scraping':
             animation-delay: 0.3s;
         }
 
-        /* Réduire l'espace en haut de la page */
+        /* Reduce space at top of page */
         .main > div:first-child {
             padding-top: 1rem !important;
         }
     </style>
 
-    <h1 class="dashboard-title">Bienvenue sur votre Dashboard</h1>
-    <p class="dashboard-subtitle">Utilisez le menu à gauche pour commencer</p>
+    <h1 class="dashboard-title">Welcome to your Dashboard</h1>
+    <p class="dashboard-subtitle">Use the left menu to start</p>
     """, unsafe_allow_html=True)
 
-    # Style simple pour séparation uniquement
+    # Simple style for separation only
     st.markdown("""
     <style>
-        /* Barre de séparation entre les colonnes */
+        /* Separation bar between columns */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:first-child {
             border-right: 4px solid #0083B8 !important;
             padding-right: 1rem !important;
@@ -684,14 +684,14 @@ elif st.session_state.page == 'scraping':
     </style>
     """, unsafe_allow_html=True)
 
-    # Créer 2 colonnes: menu à gauche (limité), contenu à droite (large)
+    # Create 2 columns: menu on left (limited), content on right (wide)
     col_menu, col_content = st.columns([0.7, 3.3])
 
     with col_menu:
-        # Style global pour la colonne menu
+        # Global style for menu column
         st.markdown("""
         <style>
-            /* Cibler spécifiquement la première colonne du dashboard */
+            /* Target specifically the first column of the dashboard */
             section[data-testid="stVerticalBlock"] > div:has(button[key="load_data_btn"]) {
                 background: linear-gradient(135deg, rgba(10, 15, 20, 0.95) 0%, rgba(20, 25, 35, 0.95) 100%) !important;
                 padding: 1.5rem !important;
@@ -699,20 +699,20 @@ elif st.session_state.page == 'scraping':
                 min-height: 70vh !important;
             }
 
-            /* Réduire TOUS les espaces dans le menu de gauche */
+            /* Reduce ALL spaces in the left menu */
 
-            /* Expanders compacts */
+            /* Compact expanders */
             div[data-testid="stExpander"] {
                 margin-bottom: 0.3rem !important;
                 margin-top: 0 !important;
             }
 
-            /* Contenu des expanders très compact */
+            /* Very compact expander content */
             div[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
                 padding: 0.3rem 0.5rem !important;
             }
 
-            /* TOUS les éléments verticaux dans expanders - gap minimal */
+            /* ALL vertical elements in expanders - minimal gap */
             div[data-testid="stExpander"] [data-testid="stVerticalBlock"],
             div[data-testid="stExpander"] [data-testid="stVerticalBlockBorderWrapper"],
             div[data-testid="stExpander"] .element-container {
@@ -722,14 +722,14 @@ elif st.session_state.page == 'scraping':
                 padding-bottom: 0 !important;
             }
 
-            /* Selectbox - aucun espace */
+            /* Selectbox - no space */
             div[data-testid="stExpander"] div[data-testid="stSelectbox"],
             div[data-testid="stExpander"] div[data-baseweb="select"] {
                 margin: 0 !important;
                 padding-bottom: 0 !important;
             }
 
-            /* Labels - aucun espace */
+            /* Labels - no space */
             div[data-testid="stExpander"] label {
                 margin: 0 !important;
                 padding: 0 !important;
@@ -737,19 +737,19 @@ elif st.session_state.page == 'scraping':
                 font-size: 0.85rem !important;
             }
 
-            /* Number input - aucun espace */
+            /* Number input - no space */
             div[data-testid="stExpander"] div[data-testid="stNumberInput"] {
                 margin: 0 !important;
                 padding-bottom: 0 !important;
             }
 
-            /* Text area - aucun espace */
+            /* Text area - no space */
             div[data-testid="stExpander"] div[data-testid="stTextArea"] {
                 margin: 0 !important;
                 padding-bottom: 0 !important;
             }
 
-            /* Boutons - aucun espace au-dessus */
+            /* Buttons - no space above */
             div[data-testid="stExpander"] div[data-testid="stButton"],
             div[data-testid="stExpander"] button {
                 margin-top: 0 !important;
@@ -757,7 +757,7 @@ elif st.session_state.page == 'scraping':
                 padding: 0.3rem 1rem !important;
             }
 
-            /* Forcer les éléments à se coller */
+            /* Force elements to stick together */
             div[data-testid="stExpander"] .stSelectbox + div,
             div[data-testid="stExpander"] .stNumberInput + div,
             div[data-testid="stExpander"] .stTextArea + div {
@@ -765,7 +765,7 @@ elif st.session_state.page == 'scraping':
                 padding-top: 0 !important;
             }
 
-            /* Supprimer les espaces entre widgets */
+            /* Remove spaces between widgets */
             div[data-testid="column"]:first-child [data-testid="stVerticalBlock"] {
                 gap: 0 !important;
             }
@@ -776,28 +776,28 @@ elif st.session_state.page == 'scraping':
         </style>
         """, unsafe_allow_html=True)
 
-        # Données pré-collectées
-        with st.expander("📂 Données", expanded=True):
+        # Pre-collected data
+        with st.expander("📂 Data", expanded=True):
 
             datasets_disponibles = {
-                "Chiens (860 annonces)": "chiens.csv",
-                "Moutons (1324 annonces)": "moutons.csv",
-                "Lapins/Poules/Pigeons (804 annonces)": "lapins_poules_pigeons.csv",
-                "Autres Animaux (491 annonces)": "autres_animaux.csv"
+                "Dogs (860 ads)": "chiens.csv",
+                "Sheep (1324 ads)": "moutons.csv",
+                "Rabbits/Chickens/Pigeons (804 ads)": "lapins_poules_pigeons.csv",
+                "Other Animals (491 ads)": "autres_animaux.csv"
             }
 
             dataset_choisi = st.selectbox(
-                "Catégorie:",
+                "Category:",
                 list(datasets_disponibles.keys()),
                 key="dataset_select"
             )
 
-            if st.button("CHARGER", use_container_width=True, key="load_data_btn"):
+            if st.button("LOAD", use_container_width=True, key="load_data_btn"):
                 try:
                     fichier = datasets_disponibles[dataset_choisi]
                     df = pd.read_csv(fichier, encoding='utf-8-sig')
 
-                    # Renommer les colonnes pour avoir des noms cohérents
+                    # Rename columns to have consistent names
                     rename_map = {}
                     if 'adress' in df.columns:
                         rename_map['adress'] = 'address'
@@ -811,37 +811,37 @@ elif st.session_state.page == 'scraping':
                     if rename_map:
                         df = df.rename(columns=rename_map)
 
-                    # Garder TOUTES les colonnes du CSV
+                    # Keep ALL columns from CSV
                     st.session_state['df'] = df
                     st.session_state['categorie'] = dataset_choisi.split(' (')[0]
                     st.session_state['show_feedback'] = False
-                    st.success(f"✅ {len(df)} annonces chargées!")
+                    st.success(f"✅ {len(df)} ads loaded!")
                     st.rerun()
                 except Exception as e:
-                    st.error(f"Erreur lors du chargement: {str(e)}")
+                    st.error(f"Loading error: {str(e)}")
 
         with st.expander("🔍 Scraper", expanded=False):
             categories = {
-                "🐕 Chiens": {
+                "🐕 Dogs": {
                     "url": "https://sn.coinafrique.com/categorie/chiens",
                     "selector": "card-content"
                 },
-                "🐑 Moutons": {
+                "🐑 Sheep": {
                     "url": "https://sn.coinafrique.com/categorie/moutons",
                     "selector": "description"
                 },
-                "🐔 Poules, Lapins et Pigeons": {
+                "🐔 Chickens, Rabbits and Pigeons": {
                     "url": "https://sn.coinafrique.com/categorie/poules-lapins-et-pigeons",
                     "selector": "description"
                 },
-                "🐾 Autres Animaux": {
+                "🐾 Other Animals": {
                     "url": "https://sn.coinafrique.com/categorie/autres-animaux",
                     "selector": "description"
                 }
             }
 
             categorie_selectionnee = st.selectbox(
-                "Catégorie:",
+                "Category:",
                 list(categories.keys()),
                 key="cat_select"
             )
@@ -855,19 +855,19 @@ elif st.session_state.page == 'scraping':
                 key="nb_pages_input"
             )
 
-            scraper_btn = st.button("LANCER", use_container_width=True, key="scrape_btn")
+            scraper_btn = st.button("START", use_container_width=True, key="scrape_btn")
 
         with st.expander("💬 Feedback", expanded=False):
-            if st.button("CHOISIR", use_container_width=True, key="feedback_btn"):
+            if st.button("CHOOSE", use_container_width=True, key="feedback_btn"):
                 st.session_state['show_feedback'] = True
                 st.rerun()
 
-    # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
+    # ========== MAIN DASHBOARD AREA (right column) ==========
     with col_content:
-        # Style global pour la colonne contenu
+        # Global style for content column
         st.markdown("""
         <style>
-            /* Cibler la zone de contenu */
+            /* Target content area */
             div[data-testid="stVerticalBlock"] div[data-testid="column"]:last-child > div {
                 background: linear-gradient(135deg, rgba(35, 40, 50, 0.5) 0%, rgba(30, 35, 45, 0.5) 100%) !important;
                 padding: 1.5rem !important;
@@ -877,11 +877,11 @@ elif st.session_state.page == 'scraping':
         </style>
         """, unsafe_allow_html=True)
 
-        # Affichage des cartes de feedback
+        # Display feedback cards
         if 'show_feedback' in st.session_state and st.session_state['show_feedback']:
             st.markdown("""
             <div class="section-header">
-                <h2>💬 Donnez votre avis</h2>
+                <h2>💬 Give your feedback</h2>
             </div>
             """, unsafe_allow_html=True)
 
@@ -906,7 +906,7 @@ elif st.session_state.page == 'scraping':
                     <div style="font-size: 4rem; margin-bottom: 1rem;">📋</div>
                     <h3 style="color: white; margin-bottom: 1rem;">Google Form</h3>
                     <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
-                        Partagez votre expérience avec notre formulaire Google
+                        Share your experience with our Google form
                     </p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeiYro0Of1uGx7A4rHP4jLP7Thmf7cWXGcWcp1DqdwgFxKf_g/viewform?usp=header" target="_blank">
                         <button style="
@@ -920,7 +920,7 @@ elif st.session_state.page == 'scraping':
                             font-weight: 600;
                             transition: all 0.3s;
                         ">
-                            Ouvrir le formulaire
+                            Open form
                         </button>
                     </a>
                 </div>
@@ -945,7 +945,7 @@ elif st.session_state.page == 'scraping':
                     <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>
                     <h3 style="color: white; margin-bottom: 1rem;">KoboToolbox</h3>
                     <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
-                        Répondez à notre enquête sur KoboToolbox
+                        Answer our survey on KoboToolbox
                     </p>
                     <a href="https://ee.kobotoolbox.org/x/LxX0vuSU" target="_blank">
                         <button style="
@@ -959,22 +959,23 @@ elif st.session_state.page == 'scraping':
                             font-weight: 600;
                             transition: all 0.3s;
                         ">
-                            Ouvrir le formulaire
+                            Open form
                         </button>
                     </a>
                 </div>
                 """, unsafe_allow_html=True)
 
-        # Zone vide au démarrage - les données s'afficheront après chargement/scraping
-        if 'df' not in st.session_state and 'show_feedback' not in st.session_state:
-            pass  # Rien à afficher, juste le header en haut
+        else:
+            # Empty zone at startup - data will appear after loading/scraping
+            if 'df' not in st.session_state:
+                pass  # Nothing to display, just the header at the top
 
-        # Gestion du scraping
-        if scraper_btn:
+            # Scraping management
+            if scraper_btn:
             st.markdown("""
             <div class="alert-info">
-                <strong>🔍 Scraping en cours...</strong><br>
-                Veuillez patienter pendant la collecte des données.
+                <strong>🔍 Scraping in progress...</strong><br>
+                Please wait while collecting data.
             </div>
             """, unsafe_allow_html=True)
 
@@ -992,48 +993,48 @@ elif st.session_state.page == 'scraping':
 
             st.markdown(f"""
             <div class="alert-success">
-                <strong>✅ Scraping terminé avec succès!</strong><br>
-                {len(df)} annonces collectées et nettoyées
+                <strong>✅ Scraping completed successfully!</strong><br>
+                {len(df)} ads collected and cleaned
             </div>
             """, unsafe_allow_html=True)
 
-        # Affichage des résultats quand des données sont disponibles (mais pas si feedback est affiché)
+        # Display results when data is available (but not if feedback is displayed)
         if 'df' in st.session_state and not st.session_state.get('show_feedback', False):
             df = st.session_state['df']
             categorie = st.session_state['categorie']
 
-            # Header avec le nom de la catégorie
+            # Header with category name
             st.markdown(f"""
             <div class="section-header">
-                <h2>📊 Analyse : {categorie}</h2>
+                <h2>📊 Analysis: {categorie}</h2>
             </div>
             """, unsafe_allow_html=True)
 
-            # KPIs - Indicateurs clés
+            # KPIs - Key indicators
             col1, col2, col3 = st.columns(3)
 
             with col1:
-                st.metric("📊 TOTAL ANNONCES", len(df))
+                st.metric("📊 TOTAL ADS", len(df))
 
             with col2:
                 image_count = df['image_link'].notna().sum() if 'image_link' in df.columns else 0
-                st.metric("🖼️ AVEC IMAGE", image_count)
+                st.metric("🖼️ WITH IMAGE", image_count)
 
             with col3:
                 completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
-                st.metric("✅ COMPLÉTUDE", f"{completion}%")
+                st.metric("✅ COMPLETENESS", f"{completion}%")
 
             st.markdown("<br><br>", unsafe_allow_html=True)
 
-            # Tabs pour organiser le contenu
-            tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Tableau de données", "💾 Export"])
+            # Tabs to organize content
+            tab1, tab2, tab3 = st.tabs(["📊 Visualizations", "📋 Data Table", "💾 Export"])
 
             with tab1:
-                st.markdown("### Analyse Graphique")
+                st.markdown("### Graphical Analysis")
                 fig = visualiser_donnees(df, categorie)
                 st.pyplot(fig)
 
-                # Informations supplémentaires
+                # Additional information
                 st.markdown("---")
                 col_info1, col_info2 = st.columns(2)
                 with col_info1:
@@ -1042,29 +1043,29 @@ elif st.session_state.page == 'scraping':
                         df_temp['price_num'] = df_temp['price'].str.extract(r'(\d+)').astype(float)
                         prices_valid = df_temp['price_num'].dropna()
                         if len(prices_valid) > 0:
-                            st.metric("Prix moyen", f"{prices_valid.mean():,.0f} CFA")
+                            st.metric("Average price", f"{prices_valid.mean():,.0f} CFA")
                 with col_info2:
                     if 'address' in df.columns:
                         nb_villes = df['address'].nunique()
-                        st.metric("Nombre de villes", nb_villes)
+                        st.metric("Number of cities", nb_villes)
 
             with tab2:
-                st.markdown("### Données brutes")
+                st.markdown("### Raw Data")
 
                 st.dataframe(df, use_container_width=True, height=450)
-                st.caption(f"Affichage de {len(df)} annonces")
+                st.caption(f"Displaying {len(df)} ads")
 
             with tab3:
-                st.markdown("### Téléchargement des données")
+                st.markdown("### Download Data")
 
-                st.info("💡 Exportez vos données pour des analyses plus approfondies dans Excel, Google Sheets, ou tout autre outil d'analyse.")
+                st.info("💡 Export your data for more in-depth analysis in Excel, Google Sheets, or any other analysis tool.")
 
                 col1, col2 = st.columns(2)
 
                 with col1:
                     csv = df.to_csv(index=False, encoding='utf-8-sig')
                     st.download_button(
-                        label="📥 Télécharger CSV",
+                        label="📥 Download CSV",
                         data=csv,
                         file_name=f"{categorie.replace(' ', '_')}_data.csv",
                         mime="text/csv",
@@ -1078,7 +1079,7 @@ elif st.session_state.page == 'scraping':
 
                     with open('temp.xlsx', 'rb') as f:
                         st.download_button(
-                            label="📥 Télécharger Excel",
+                            label="📥 Download Excel",
                             data=f,
                             file_name=f"{categorie.replace(' ', '_')}_data.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
