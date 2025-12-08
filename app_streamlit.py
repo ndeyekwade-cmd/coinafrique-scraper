@@ -482,41 +482,88 @@ if st.session_state.page == 'welcome':
 elif st.session_state.page == 'instructions':
     st.markdown("""
     <div class="section-header">
-        <h2>📋 Instructions d'utilisation</h2>
+        <h2>Guide d'utilisation</h2>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="instructions-container">', unsafe_allow_html=True)
 
+    # Introduction
+    st.markdown("""
+        <div class="instruction-card">
+            <h3 style="color: #0083B8; margin-top: 0;">Bienvenue sur CoinAfrique Analytics</h3>
+            <p style="margin-top: 0.5rem; line-height: 1.6;">
+                Cette plateforme vous permet de collecter et analyser automatiquement les données
+                des annonces d'animaux publiées sur CoinAfrique Sénégal. L'outil extrait les informations
+                clés (nom, prix, localisation, images) et génère des visualisations pour faciliter votre analyse.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Étape 1
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">1</span>
-            <strong style="font-size: 1.2rem;">Sélectionner une catégorie</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem;">Choisissez parmi 4 catégories d'animaux disponibles sur CoinAfrique</p>
+            <strong style="font-size: 1.2rem;">Choisir une catégorie d'animaux</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
+                Sélectionnez la catégorie que vous souhaitez analyser parmi les options disponibles :
+                Chiens, Moutons, Poules/Lapins/Pigeons, ou Autres Animaux. Chaque catégorie correspond
+                à une section spécifique du site CoinAfrique.
+            </p>
         </div>
     """, unsafe_allow_html=True)
 
+    # Étape 2
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">2</span>
-            <strong style="font-size: 1.2rem;">Définir le nombre de pages</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem;">Spécifiez combien de pages vous souhaitez scraper (1-50)</p>
+            <strong style="font-size: 1.2rem;">Définir le volume de collecte</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
+                Indiquez le nombre de pages à scraper (entre 1 et 50). Chaque page contient généralement
+                environ 20 annonces. Pour un échantillon rapide, 5 pages suffisent. Pour une analyse
+                complète, choisissez 20 pages ou plus.
+            </p>
         </div>
     """, unsafe_allow_html=True)
 
+    # Étape 3
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">3</span>
-            <strong style="font-size: 1.2rem;">Lancer le scraping</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem;">Cliquez sur le bouton et attendez la collecte automatique des données</p>
+            <strong style="font-size: 1.2rem;">Lancer la collecte des données</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
+                Cliquez sur le bouton "LANCER" pour démarrer le scraping. Une barre de progression
+                s'affichera pour suivre l'avancement. Le processus peut prendre quelques minutes selon
+                le nombre de pages sélectionné. Les données sont automatiquement nettoyées et dédupliquées.
+            </p>
         </div>
     """, unsafe_allow_html=True)
 
+    # Étape 4
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">4</span>
-            <strong style="font-size: 1.2rem;">Visualiser et exporter</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem;">Analysez les graphiques et exportez vos données en CSV ou Excel</p>
+            <strong style="font-size: 1.2rem;">Analyser et exporter les résultats</strong>
+            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
+                Une fois la collecte terminée, consultez les indicateurs clés (nombre d'annonces,
+                complétude des données), explorez les visualisations graphiques (top adresses,
+                distribution des prix), et téléchargez vos données au format CSV ou Excel pour
+                des analyses approfondies.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Conseils d'utilisation
+    st.markdown("""
+        <div class="instruction-card">
+            <h3 style="color: #F71938; margin-top: 0;">Conseils d'utilisation</h3>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>Commencez avec un nombre réduit de pages (5-10) pour tester</li>
+                <li>Les données sont mises en cache pour éviter les collectes répétées</li>
+                <li>Utilisez le menu latéral pour naviguer entre les fonctionnalités</li>
+                <li>Les graphiques sont interactifs et peuvent être sauvegardés</li>
+                <li>Vérifiez la complétude des données avant l'export</li>
+            </ul>
         </div>
     """, unsafe_allow_html=True)
 
@@ -525,7 +572,7 @@ elif st.session_state.page == 'instructions':
     st.markdown('<br><br>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        if st.button("→ COMMENCER", key="start_scraping_btn"):
+        if st.button("COMMENCER", key="start_scraping_btn"):
             st.session_state.page = 'scraping'
             st.rerun()
 
