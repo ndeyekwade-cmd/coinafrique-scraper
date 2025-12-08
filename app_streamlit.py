@@ -715,7 +715,6 @@ elif st.session_state.page == 'scraping':
                 background: linear-gradient(135deg, rgba(10, 15, 20, 0.95) 0%, rgba(20, 25, 35, 0.95) 100%) !important;
                 padding: 1.5rem !important;
                 border-radius: 8px !important;
-                border-right: 4px solid #0083B8 !important;
                 min-height: 70vh !important;
             }
 
