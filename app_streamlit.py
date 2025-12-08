@@ -461,6 +461,15 @@ def visualiser_donnees(df, categorie_name):
 
 # ==================== PAGE WELCOME ====================
 if st.session_state.page == 'welcome':
+    # Masquer le sidebar sur la page d'accueil
+    st.markdown("""
+    <style>
+        [data-testid="stSidebar"] {
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.markdown('<div class="welcome-container">', unsafe_allow_html=True)
 
     st.markdown("""
@@ -480,6 +489,15 @@ if st.session_state.page == 'welcome':
 
 # ==================== PAGE INSTRUCTIONS ====================
 elif st.session_state.page == 'instructions':
+    # Masquer le sidebar sur la page instructions
+    st.markdown("""
+    <style>
+        [data-testid="stSidebar"] {
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.markdown("""
     <div class="section-header">
         <h2>Guide d'utilisation</h2>
