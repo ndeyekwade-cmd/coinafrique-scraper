@@ -814,6 +814,7 @@ elif st.session_state.page == 'scraping':
                     # Garder TOUTES les colonnes du CSV
                     st.session_state['df'] = df
                     st.session_state['categorie'] = dataset_choisi.split(' (')[0]
+                    st.session_state['show_feedback'] = False
                     st.success(f"✅ {len(df)} annonces chargées!")
                     st.rerun()
                 except Exception as e:
@@ -857,19 +858,9 @@ elif st.session_state.page == 'scraping':
             scraper_btn = st.button("LANCER", use_container_width=True, key="scrape_btn")
 
         with st.expander("💬 Feedback", expanded=False):
-            feedback = st.text_area(
-                "Commentaire:",
-                placeholder="Votre avis...",
-                height=70,
-                key="feedback_text",
-                label_visibility="collapsed"
-            )
-
-            if st.button("ENVOYER", use_container_width=True, key="send_feedback"):
-                if feedback:
-                    st.success("Merci!")
-                else:
-                    st.warning("Écrivez un commentaire.")
+            if st.button("CHOISIR", use_container_width=True, key="feedback_btn"):
+                st.session_state['show_feedback'] = True
+                st.rerun()
 
     # ========== ZONE PRINCIPALE DU DASHBOARD (colonne droite) ==========
     with col_content:
@@ -885,8 +876,93 @@ elif st.session_state.page == 'scraping':
             }
         </style>
         """, unsafe_allow_html=True)
+
+        # Affichage des cartes de feedback
+        if 'show_feedback' in st.session_state and st.session_state['show_feedback']:
+            st.markdown("""
+            <div class="section-header">
+                <h2>💬 Donnez votre avis</h2>
+            </div>
+            """, unsafe_allow_html=True)
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #4285F4 0%, #357AE8 100%);
+                    padding: 2rem;
+                    border-radius: 10px;
+                    text-align: center;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    height: 250px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📋</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Google Form</h3>
+                    <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
+                        Partagez votre expérience avec notre formulaire Google
+                    </p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeiYro0Of1uGx7A4rHP4jLP7Thmf7cWXGcWcp1DqdwgFxKf_g/viewform?usp=header" target="_blank">
+                        <button style="
+                            padding: 0.75rem 2rem;
+                            background-color: white;
+                            color: #4285F4;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            transition: all 0.3s;
+                        ">
+                            Ouvrir le formulaire
+                        </button>
+                    </a>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col2:
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+                    padding: 2rem;
+                    border-radius: 10px;
+                    text-align: center;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    height: 250px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">KoboToolbox</h3>
+                    <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
+                        Répondez à notre enquête sur KoboToolbox
+                    </p>
+                    <a href="https://ee.kobotoolbox.org/x/LxX0vuSU" target="_blank">
+                        <button style="
+                            padding: 0.75rem 2rem;
+                            background-color: white;
+                            color: #0D47A1;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            transition: all 0.3s;
+                        ">
+                            Ouvrir le formulaire
+                        </button>
+                    </a>
+                </div>
+                """, unsafe_allow_html=True)
+
         # Zone vide au démarrage - les données s'afficheront après chargement/scraping
-        if 'df' not in st.session_state:
+        if 'df' not in st.session_state and 'show_feedback' not in st.session_state:
             pass  # Rien à afficher, juste le header en haut
 
         # Gestion du scraping
@@ -908,6 +984,7 @@ elif st.session_state.page == 'scraping':
 
             st.session_state['df'] = df
             st.session_state['categorie'] = categorie_selectionnee
+            st.session_state['show_feedback'] = False
 
             st.markdown(f"""
             <div class="alert-success">
