@@ -699,7 +699,42 @@ elif st.session_state.page == 'scraping':
         st.markdown("**AIMS Senegal**")
         st.caption("© 2025 Ndeye Khady Wade")
 
-    # Zone principale vide au démarrage
+    # ========== ZONE PRINCIPALE DU DASHBOARD ==========
+
+    # Si aucune donnée n'est chargée, afficher la page d'accueil du dashboard
+    if 'df' not in st.session_state:
+        st.markdown("""
+        <div style="text-align: center; padding: 4rem 2rem;">
+            <h1 style="color: #0083B8; font-size: 3rem; margin-bottom: 1rem;">
+                Bienvenue sur votre Dashboard
+            </h1>
+            <p style="color: #e8e8e8; font-size: 1.3rem; margin-bottom: 3rem;">
+                Choisissez une option dans le menu latéral pour commencer
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 3rem;">
+                <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(0,131,184,0.3);
+                            border-radius: 12px; padding: 2rem; width: 300px; text-align: left;">
+                    <h3 style="color: #0083B8; margin-top: 0;">📂 Option 1</h3>
+                    <p style="color: #e8e8e8; line-height: 1.6;">
+                        <strong>Charger des données existantes</strong><br>
+                        Accédez instantanément à 3479 annonces déjà collectées
+                    </p>
+                </div>
+
+                <div style="background: rgba(26, 31, 46, 0.8); border: 1px solid rgba(247,25,56,0.3);
+                            border-radius: 12px; padding: 2rem; width: 300px; text-align: left;">
+                    <h3 style="color: #F71938; margin-top: 0;">🔍 Option 2</h3>
+                    <p style="color: #e8e8e8; line-height: 1.6;">
+                        <strong>Scraper de nouvelles données</strong><br>
+                        Collectez des données fraîches en temps réel
+                    </p>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Gestion du scraping
     if scraper_btn:
         st.markdown("""
         <div class="alert-info">
@@ -726,11 +761,19 @@ elif st.session_state.page == 'scraping':
         </div>
         """, unsafe_allow_html=True)
 
+    # Affichage des résultats quand des données sont disponibles
     if 'df' in st.session_state:
         df = st.session_state['df']
         categorie = st.session_state['categorie']
 
-        st.markdown("### 📈 INDICATEURS CLÉS")
+        # Header avec le nom de la catégorie
+        st.markdown(f"""
+        <div class="section-header">
+            <h2>📊 Analyse : {categorie}</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # KPIs - Indicateurs clés
         col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
@@ -747,23 +790,54 @@ elif st.session_state.page == 'scraping':
 
         with col5:
             completion = round((df.notna().sum().sum() / (len(df) * len(df.columns))) * 100, 1)
-            st.metric("✅ COMPLÉTUDE", f"{completion}%")
+            st.metric("COMPLÉTUDE", f"{completion}%")
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<br><br>", unsafe_allow_html=True)
 
-        tab1, tab2, tab3 = st.tabs(["📊 VISUALISATIONS", "📋 DONNÉES", "💾 EXPORT"])
+        # Tabs pour organiser le contenu
+        tab1, tab2, tab3 = st.tabs(["📊 Visualisations", "📋 Tableau de données", "💾 Export"])
 
         with tab1:
-            st.markdown("### 📊 Analyse Graphique")
+            st.markdown("### Analyse Graphique")
             fig = visualiser_donnees(df, categorie)
             st.pyplot(fig)
 
+            # Informations supplémentaires
+            st.markdown("---")
+            col_info1, col_info2 = st.columns(2)
+            with col_info1:
+                if 'price' in df.columns:
+                    df_temp = df.copy()
+                    df_temp['price_num'] = df_temp['price'].str.extract(r'(\d+)').astype(float)
+                    prices_valid = df_temp['price_num'].dropna()
+                    if len(prices_valid) > 0:
+                        st.metric("Prix moyen", f"{prices_valid.mean():,.0f} CFA")
+            with col_info2:
+                if 'address' in df.columns:
+                    nb_villes = df['address'].nunique()
+                    st.metric("Nombre de villes", nb_villes)
+
         with tab2:
-            st.markdown(f"### 📋 Tableau des Données - {categorie}")
-            st.dataframe(df, use_container_width=True, height=450)
+            st.markdown("### Données brutes")
+
+            # Options de filtrage
+            col_filter1, col_filter2 = st.columns(2)
+            with col_filter1:
+                if st.checkbox("Afficher uniquement avec prix"):
+                    df_display = df[df['price'].notna()]
+                else:
+                    df_display = df
+            with col_filter2:
+                if st.checkbox("Afficher uniquement avec adresse"):
+                    df_display = df_display[df_display['address'].notna()]
+
+            st.dataframe(df_display, use_container_width=True, height=450)
+            st.caption(f"Affichage de {len(df_display)} sur {len(df)} annonces")
 
         with tab3:
-            st.markdown("### 💾 Télécharger les Données")
+            st.markdown("### Téléchargement des données")
+
+            st.info("💡 Exportez vos données pour des analyses plus approfondies dans Excel, Google Sheets, ou tout autre outil d'analyse.")
 
             col1, col2 = st.columns(2)
 
