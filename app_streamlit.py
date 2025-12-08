@@ -969,19 +969,8 @@ elif st.session_state.page == 'scraping':
             with tab2:
                 st.markdown("### Données brutes")
 
-                # Options de filtrage
-                col_filter1, col_filter2 = st.columns(2)
-                with col_filter1:
-                    if st.checkbox("Afficher uniquement avec prix"):
-                        df_display = df[df['price'].notna()]
-                    else:
-                        df_display = df
-                with col_filter2:
-                    if st.checkbox("Afficher uniquement avec adresse"):
-                        df_display = df_display[df_display['address'].notna()]
-
-                st.dataframe(df_display, use_container_width=True, height=450)
-                st.caption(f"Affichage de {len(df_display)} sur {len(df)} annonces")
+                st.dataframe(df, use_container_width=True, height=450)
+                st.caption(f"Affichage de {len(df)} annonces")
 
             with tab3:
                 st.markdown("### Téléchargement des données")
