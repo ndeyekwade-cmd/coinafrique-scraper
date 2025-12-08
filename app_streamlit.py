@@ -497,59 +497,73 @@ elif st.session_state.page == 'instructions':
                 des annonces d'animaux publiées sur CoinAfrique Sénégal. L'outil extrait les informations
                 clés (nom, prix, localisation, images) et génère des visualisations pour faciliter votre analyse.
             </p>
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Étape 1
-    st.markdown("""
-        <div class="instruction-card">
-            <span class="instruction-number">1</span>
-            <strong style="font-size: 1.2rem;">Choisir une catégorie d'animaux</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
-                Sélectionnez la catégorie que vous souhaitez analyser parmi les options disponibles :
-                Chiens, Moutons, Poules/Lapins/Pigeons, ou Autres Animaux. Chaque catégorie correspond
-                à une section spécifique du site CoinAfrique.
+            <p style="margin-top: 1rem; line-height: 1.6;">
+                <strong style="color: #F71938;">Deux options s'offrent à vous :</strong><br>
+                <span style="color: #0083B8;">•</span> Charger des données déjà collectées (3479 annonces disponibles)<br>
+                <span style="color: #0083B8;">•</span> Scraper de nouvelles données en temps réel
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Étape 2
+    # Option 1 - Données pré-collectées
     st.markdown("""
         <div class="instruction-card">
-            <span class="instruction-number">2</span>
-            <strong style="font-size: 1.2rem;">Définir le volume de collecte</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
-                Indiquez le nombre de pages à scraper (entre 1 et 50). Chaque page contient généralement
-                environ 20 annonces. Pour un échantillon rapide, 5 pages suffisent. Pour une analyse
-                complète, choisissez 20 pages ou plus.
+            <h3 style="color: #0083B8; margin-top: 0;">Option 1 : Charger des données pré-collectées</h3>
+            <p style="margin-top: 0.5rem; line-height: 1.6;">
+                <strong>Accès immédiat à 3479 annonces déjà collectées</strong>
+            </p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Chiens :</strong> 860 annonces</li>
+                <li><strong>Moutons :</strong> 1324 annonces</li>
+                <li><strong>Lapins/Poules/Pigeons :</strong> 804 annonces</li>
+                <li><strong>Autres Animaux :</strong> 491 annonces</li>
+            </ul>
+            <p style="margin-top: 1rem; line-height: 1.6;">
+                Dans le menu latéral, section "Données pré-collectées", sélectionnez la catégorie
+                souhaitée et cliquez sur "CHARGER LES DONNÉES". Les visualisations s'afficheront
+                instantanément sans attendre.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Étape 3
+    # Option 2 - Scraper de nouvelles données
     st.markdown("""
         <div class="instruction-card">
-            <span class="instruction-number">3</span>
-            <strong style="font-size: 1.2rem;">Lancer la collecte des données</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
-                Cliquez sur le bouton "LANCER" pour démarrer le scraping. Une barre de progression
-                s'affichera pour suivre l'avancement. Le processus peut prendre quelques minutes selon
-                le nombre de pages sélectionné. Les données sont automatiquement nettoyées et dédupliquées.
+            <h3 style="color: #0083B8; margin-top: 0;">Option 2 : Scraper de nouvelles données</h3>
+            <p style="margin-top: 0.5rem; line-height: 1.6;">
+                <strong>Collectez des données fraîches en temps réel</strong>
+            </p>
+            <p style="margin-top: 1rem; line-height: 1.6;">
+                <span class="instruction-number">1</span>
+                <strong>Choisir une catégorie :</strong> Sélectionnez parmi Chiens, Moutons,
+                Poules/Lapins/Pigeons, ou Autres Animaux dans le menu "Scraper de nouvelles données".
+            </p>
+            <p style="margin-top: 1rem; line-height: 1.6;">
+                <span class="instruction-number">2</span>
+                <strong>Définir le volume :</strong> Indiquez le nombre de pages (1-50).
+                Environ 20 annonces par page. 5 pages = ~100 annonces, 20 pages = ~400 annonces.
+            </p>
+            <p style="margin-top: 1rem; line-height: 1.6;">
+                <span class="instruction-number">3</span>
+                <strong>Lancer le scraping :</strong> Cliquez sur "LANCER". Une barre de progression
+                suivra l'avancement. Durée : quelques minutes selon le volume.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Étape 4
+    # Analyse et export
     st.markdown("""
         <div class="instruction-card">
-            <span class="instruction-number">4</span>
-            <strong style="font-size: 1.2rem;">Analyser et exporter les résultats</strong>
-            <p style="margin-left: 56px; margin-top: 0.5rem; line-height: 1.6;">
-                Une fois la collecte terminée, consultez les indicateurs clés (nombre d'annonces,
-                complétude des données), explorez les visualisations graphiques (top adresses,
-                distribution des prix), et téléchargez vos données au format CSV ou Excel pour
-                des analyses approfondies.
+            <h3 style="color: #0083B8; margin-top: 0;">Analyser et exporter vos données</h3>
+            <p style="margin-top: 0.5rem; line-height: 1.6;">
+                Une fois les données chargées ou scrapées, vous accédez à :
             </p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Indicateurs clés :</strong> Total annonces, prix, adresses, images, complétude</li>
+                <li><strong>Visualisations :</strong> Top 10 des adresses, distribution des prix avec moyenne/médiane</li>
+                <li><strong>Tableau de données :</strong> Consultation détaillée de toutes les annonces</li>
+                <li><strong>Export :</strong> Téléchargement au format CSV ou Excel</li>
+            </ul>
         </div>
     """, unsafe_allow_html=True)
 
@@ -558,11 +572,12 @@ elif st.session_state.page == 'instructions':
         <div class="instruction-card">
             <h3 style="color: #F71938; margin-top: 0;">Conseils d'utilisation</h3>
             <ul style="margin-left: 20px; line-height: 1.8;">
-                <li>Commencez avec un nombre réduit de pages (5-10) pour tester</li>
-                <li>Les données sont mises en cache pour éviter les collectes répétées</li>
-                <li>Utilisez le menu latéral pour naviguer entre les fonctionnalités</li>
-                <li>Les graphiques sont interactifs et peuvent être sauvegardés</li>
-                <li>Vérifiez la complétude des données avant l'export</li>
+                <li>Commencez avec les données pré-collectées pour une découverte rapide</li>
+                <li>Pour du scraping, débutez avec 5-10 pages pour tester</li>
+                <li>Les données scrapées sont mises en cache pour éviter les collectes répétées</li>
+                <li>Utilisez le menu latéral pour basculer entre chargement et scraping</li>
+                <li>Les graphiques peuvent être sauvegardés via clic droit</li>
+                <li>Vérifiez l'indicateur de complétude avant l'export</li>
             </ul>
         </div>
     """, unsafe_allow_html=True)
@@ -582,15 +597,52 @@ elif st.session_state.page == 'scraping':
         st.markdown("## 📊 MENU")
         st.markdown("---")
 
+        # Données pré-collectées
+        with st.expander("📂 Données pré-collectées", expanded=True):
+            st.markdown("**Charger des données existantes**")
+
+            datasets_disponibles = {
+                "Chiens (860 annonces)": "chiens.csv",
+                "Moutons (1324 annonces)": "moutons.csv",
+                "Lapins/Poules/Pigeons (804 annonces)": "lapins_poules_pigeons.csv",
+                "Autres Animaux (491 annonces)": "autres_animaux.csv"
+            }
+
+            dataset_choisi = st.selectbox(
+                "Sélectionner un jeu de données:",
+                list(datasets_disponibles.keys()),
+                key="dataset_select"
+            )
+
+            if st.button("CHARGER LES DONNÉES", use_container_width=True, key="load_data_btn"):
+                try:
+                    fichier = datasets_disponibles[dataset_choisi]
+                    df = pd.read_csv(fichier, encoding='utf-8-sig')
+
+                    # Renommer les colonnes pour correspondre au format attendu
+                    if 'adress' in df.columns:
+                        df = df.rename(columns={'adress': 'address', 'img_link': 'image_link'})
+
+                    # Garder seulement les colonnes nécessaires
+                    colonnes_necessaires = ['name', 'price', 'address', 'image_link']
+                    df = df[[col for col in colonnes_necessaires if col in df.columns]]
+
+                    st.session_state['df'] = df
+                    st.session_state['categorie'] = dataset_choisi.split(' (')[0]
+                    st.success(f"✅ {len(df)} annonces chargées!")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Erreur lors du chargement: {str(e)}")
+
         with st.expander("📈 Visualiser les données", expanded=False):
             if 'df' in st.session_state:
                 st.success(f"✅ {len(st.session_state['df'])} annonces disponibles")
                 if st.button("Voir les statistiques", key="view_stats"):
                     st.session_state['show_section'] = 'stats'
             else:
-                st.info("Aucune donnée disponible. Lancez d'abord un scraping.")
+                st.info("Aucune donnée disponible. Chargez des données existantes ou lancez un scraping.")
 
-        with st.expander("🔍 Scraper des données", expanded=True):
+        with st.expander("🔍 Scraper de nouvelles données", expanded=False):
             categories = {
                 "🐕 Chiens": {
                     "url": "https://sn.coinafrique.com/categorie/chiens",
