@@ -890,16 +890,18 @@ elif st.session_state.page == 'scraping':
             with col1:
                 st.markdown("""
                 <div style="
-                    background: linear-gradient(135deg, #4285F4 0%, #357AE8 100%);
+                    background: linear-gradient(135deg, #0083B8 0%, #006a94 100%);
                     padding: 2rem;
                     border-radius: 10px;
                     text-align: center;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 0 15px rgba(0, 131, 184, 0.4);
+                    border: 1px solid rgba(0, 131, 184, 0.3);
                     height: 250px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                    transition: all 0.3s ease;
                 ">
                     <div style="font-size: 4rem; margin-bottom: 1rem;">📋</div>
                     <h3 style="color: white; margin-bottom: 1rem;">Google Form</h3>
@@ -910,7 +912,7 @@ elif st.session_state.page == 'scraping':
                         <button style="
                             padding: 0.75rem 2rem;
                             background-color: white;
-                            color: #4285F4;
+                            color: #0083B8;
                             border: none;
                             border-radius: 5px;
                             cursor: pointer;
@@ -927,16 +929,18 @@ elif st.session_state.page == 'scraping':
             with col2:
                 st.markdown("""
                 <div style="
-                    background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+                    background: linear-gradient(135deg, #F71938 0%, #8B1538 100%);
                     padding: 2rem;
                     border-radius: 10px;
                     text-align: center;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 0 15px rgba(247, 25, 56, 0.4);
+                    border: 1px solid rgba(247, 25, 56, 0.3);
                     height: 250px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                    transition: all 0.3s ease;
                 ">
                     <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>
                     <h3 style="color: white; margin-bottom: 1rem;">KoboToolbox</h3>
@@ -947,7 +951,7 @@ elif st.session_state.page == 'scraping':
                         <button style="
                             padding: 0.75rem 2rem;
                             background-color: white;
-                            color: #0D47A1;
+                            color: #F71938;
                             border: none;
                             border-radius: 5px;
                             cursor: pointer;
