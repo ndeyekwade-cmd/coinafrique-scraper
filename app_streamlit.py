@@ -997,8 +997,8 @@ elif st.session_state.page == 'scraping':
             </div>
             """, unsafe_allow_html=True)
 
-        # Affichage des résultats quand des données sont disponibles
-        if 'df' in st.session_state:
+        # Affichage des résultats quand des données sont disponibles (mais pas si feedback est affiché)
+        if 'df' in st.session_state and not st.session_state.get('show_feedback', False):
             df = st.session_state['df']
             categorie = st.session_state['categorie']
 
