@@ -612,6 +612,16 @@ elif st.session_state.page == 'instructions':
 
 # ==================== PAGE SCRAPING ====================
 elif st.session_state.page == 'scraping':
+    # Forcer l'affichage du sidebar sur cette page
+    st.markdown("""
+    <style>
+        [data-testid="stSidebar"] {
+            display: block !important;
+            visibility: visible !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     with st.sidebar:
         st.markdown("## 📊 MENU")
         st.markdown("---")
