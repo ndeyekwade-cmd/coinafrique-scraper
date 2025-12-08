@@ -44,18 +44,17 @@ def local_css():
             background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
         }
 
-        /* Sidebar fixe */
+        /* Sidebar */
         [data-testid="stSidebar"] {
             background-color: #1a1f2e;
             border-right: 1px solid rgba(0,131,184,0.2);
-            position: fixed;
             height: 100vh;
             overflow-y: auto;
         }
 
-        /* Masquer le bouton de collapse sidebar */
+        /* ❗ Correction : on enlève le display:none */
         [data-testid="collapsedControl"] {
-            display: none;
+            display: block;
         }
 
         [data-testid="stSidebar"] * {
@@ -231,52 +230,26 @@ def local_css():
             color: var(--text-light);
         }
 
-        /* Text general */
         p, span, label, div {
             color: var(--text-light);
         }
 
-        /* Page d'accueil - Animations */
+        /* Animations Accueil */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 8px 15px rgba(247,25,56,0.4);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-
         @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 10px rgba(0,131,184,0.5);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(247,25,56,0.8), 0 0 30px rgba(0,131,184,0.5);
-            }
+            0%, 100% { text-shadow: 0 0 10px rgba(0,131,184,0.5); }
+            50% { text-shadow: 0 0 20px rgba(247,25,56,0.8), 0 0 30px rgba(0,131,184,0.5); }
         }
 
         .welcome-container {
@@ -285,13 +258,7 @@ def local_css():
             align-items: center;
             justify-content: center;
             text-align: center;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
+            min-height: 100vh;
             padding: 2rem;
         }
 
@@ -309,9 +276,7 @@ def local_css():
 
         .welcome-subtitle {
             font-size: 1.5rem;
-            color: var(--text-light);
             margin-bottom: 1rem;
-            text-align: center;
             animation: fadeInUp 1.2s ease-out;
             opacity: 0;
             animation-fill-mode: forwards;
@@ -333,7 +298,6 @@ def local_css():
             animation-delay: 1.5s;
         }
 
-        /* Instructions page */
         .instructions-container {
             max-width: 900px;
             margin: 0 auto;
@@ -370,6 +334,7 @@ def local_css():
             font-size: 1.2rem;
             margin-right: 1rem;
         }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -378,7 +343,6 @@ local_css()
 # Fonction de scraping
 @st.cache_data
 def scraper_categorie(categorie_name, url, max_pages, selector_name):
-    """Scrape une catégorie d'animaux"""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
@@ -448,12 +412,10 @@ def scraper_categorie(categorie_name, url, max_pages, selector_name):
 
 # Fonction de visualisation
 def visualiser_donnees(df, categorie_name):
-    """Créer des visualisations pour une catégorie"""
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     fig.suptitle(f'ANALYSE DES DONNÉES - {categorie_name}', fontsize=16, fontweight='bold', color='#e8e8e8')
     fig.patch.set_facecolor('#1a1f2e')
 
-    # Top 10 des adresses
     if 'address' in df.columns and df['address'].notna().sum() > 0:
         top_addresses = df['address'].value_counts().head(10)
         axes[0].barh(range(len(top_addresses)), top_addresses.values, color='#0083B8')
@@ -466,7 +428,6 @@ def visualiser_donnees(df, categorie_name):
         axes[0].set_facecolor('#1a1f2e')
         axes[0].tick_params(colors='#e8e8e8')
 
-    # Distribution des prix
     if 'price' in df.columns:
         df['price_num'] = df['price'].str.extract(r'(\d+)').astype(float)
         prices_valid = df['price_num'].dropna()
@@ -500,7 +461,6 @@ if st.session_state.page == 'welcome':
         <p class="welcome-subtitle">Plateforme d'analyse et de collecte de données</p>
     """, unsafe_allow_html=True)
 
-    # Bouton centré avec colonnes
     st.markdown('<div class="welcome-btn-wrapper">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
@@ -519,10 +479,8 @@ elif st.session_state.page == 'instructions':
     </div>
     """, unsafe_allow_html=True)
 
-    # Instructions en cartes séparées
     st.markdown('<div class="instructions-container">', unsafe_allow_html=True)
 
-    # Instruction 1
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">1</span>
@@ -531,7 +489,6 @@ elif st.session_state.page == 'instructions':
         </div>
     """, unsafe_allow_html=True)
 
-    # Instruction 2
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">2</span>
@@ -540,7 +497,6 @@ elif st.session_state.page == 'instructions':
         </div>
     """, unsafe_allow_html=True)
 
-    # Instruction 3
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">3</span>
@@ -549,7 +505,6 @@ elif st.session_state.page == 'instructions':
         </div>
     """, unsafe_allow_html=True)
 
-    # Instruction 4
     st.markdown("""
         <div class="instruction-card">
             <span class="instruction-number">4</span>
@@ -569,12 +524,10 @@ elif st.session_state.page == 'instructions':
 
 # ==================== PAGE SCRAPING ====================
 elif st.session_state.page == 'scraping':
-    # Sidebar avec menu
     with st.sidebar:
         st.markdown("## 📊 MENU")
         st.markdown("---")
 
-        # Menu Visualiser les données
         with st.expander("📈 Visualiser les données", expanded=False):
             if 'df' in st.session_state:
                 st.success(f"✅ {len(st.session_state['df'])} annonces disponibles")
@@ -583,7 +536,6 @@ elif st.session_state.page == 'scraping':
             else:
                 st.info("Aucune donnée disponible. Lancez d'abord un scraping.")
 
-        # Menu Scraper des données
         with st.expander("🔍 Scraper des données", expanded=True):
             categories = {
                 "🐕 Chiens": {
@@ -622,7 +574,6 @@ elif st.session_state.page == 'scraping':
             st.markdown("<br>", unsafe_allow_html=True)
             scraper_btn = st.button("🚀 LANCER", use_container_width=True, key="scrape_btn")
 
-        # Menu Feedback
         with st.expander("💬 Feedback", expanded=False):
             st.markdown("**Votre avis compte!**")
             feedback = st.text_area(
@@ -641,14 +592,12 @@ elif st.session_state.page == 'scraping':
         st.markdown("**AIMS Senegal**")
         st.caption("© 2025 Ndeye Khady Wade")
 
-    # Header
     st.markdown("""
     <div class="section-header">
         <h2>📊 CoinAfrique Analytics Dashboard</h2>
     </div>
     """, unsafe_allow_html=True)
 
-    # Scraping
     if scraper_btn:
         st.markdown("""
         <div class="alert-info">
@@ -675,12 +624,10 @@ elif st.session_state.page == 'scraping':
         </div>
         """, unsafe_allow_html=True)
 
-    # Affichage des résultats
     if 'df' in st.session_state:
         df = st.session_state['df']
         categorie = st.session_state['categorie']
 
-        # KPIs
         st.markdown("### 📈 INDICATEURS CLÉS")
         col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -702,7 +649,6 @@ elif st.session_state.page == 'scraping':
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Tabs
         tab1, tab2, tab3 = st.tabs(["📊 VISUALISATIONS", "📋 DONNÉES", "💾 EXPORT"])
 
         with tab1:
