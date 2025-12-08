@@ -797,7 +797,7 @@ elif st.session_state.page == 'scraping':
                     fichier = datasets_disponibles[dataset_choisi]
                     df = pd.read_csv(fichier, encoding='utf-8-sig')
 
-                    # Renommer les colonnes pour correspondre au format attendu
+                    # Renommer les colonnes pour avoir des noms cohérents
                     rename_map = {}
                     if 'adress' in df.columns:
                         rename_map['adress'] = 'address'
@@ -811,10 +811,7 @@ elif st.session_state.page == 'scraping':
                     if rename_map:
                         df = df.rename(columns=rename_map)
 
-                    # Garder seulement les colonnes nécessaires
-                    colonnes_necessaires = ['name', 'price', 'address', 'image_link']
-                    df = df[[col for col in colonnes_necessaires if col in df.columns]]
-
+                    # Garder TOUTES les colonnes du CSV
                     st.session_state['df'] = df
                     st.session_state['categorie'] = dataset_choisi.split(' (')[0]
                     st.success(f"✅ {len(df)} annonces chargées!")
